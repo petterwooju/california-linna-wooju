@@ -9,23 +9,21 @@ export async function generateMetadata(): Promise<Metadata> {
   const origin = `${protocol}://${host}`;
 
   return {
-    title: "California, written in light — 14日加州公路旅行",
-    description: "从旧金山、优胜美地、红杉国家公园与死亡谷到洛杉矶的 14 天互动行程、路线地图与旅行笔记。",
+    title: "California, Linna & Wooju — 2026 加州公路旅行",
+    description: "9月21日至10月5日，从仁川转机到旧金山、优胜美地、红杉国家公园与洛杉矶海岸的互动路线、逐小时时间表和住宿计划。",
     icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
     openGraph: {
-      title: "California, written in light",
-      description: "14 days · 6 regions · one California road story",
+      title: "California, Linna & Wooju",
+      description: "15 calendar days · 40 stops · 6 stays",
       type: "website",
       url: origin,
       siteName: "California Field Journal",
       locale: "zh_CN",
-      images: [{ url: `${origin}/og.png`, width: 1734, height: 907, alt: "California road trip field journal" }],
     },
     twitter: {
-      card: "summary_large_image",
-      title: "California, written in light",
-      description: "14 days · 6 regions · one California road story",
-      images: [`${origin}/og.png`],
+      card: "summary",
+      title: "California, Linna & Wooju",
+      description: "15 calendar days · 40 stops · 6 stays",
     },
   };
 }

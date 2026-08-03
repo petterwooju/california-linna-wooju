@@ -1,262 +1,275 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { Map as MapLibreMap } from "maplibre-gl";
-
-type Stop = {
-  id: string;
-  number: string;
-  name: string;
-  cn: string;
-  days: string;
-  dates: string;
-  kicker: string;
-  summary: string;
-  highlights: string[];
-  coordinates: [number, number];
-  image: string;
-};
+import type { Map as LeafletMap, Polyline } from "leaflet";
+import { allRoutePoints, formatMinutes, hotelStays, optimizedDays, routePointTimes, type RoutePoint } from "./route-data";
 
 type DayPlan = {
   day: number;
   date: string;
   place: string;
-  stopId: string;
-  events: string[];
+  events: Array<{ time: string; label: string }>;
   note?: string;
   drive?: string;
+  hotelId?: string;
 };
 
-const stops: Stop[] = [
-  {
-    id: "san-francisco",
-    number: "01",
-    name: "San Francisco",
-    cn: "旧金山",
-    days: "DAYS 01—03",
-    dates: "SEP 23—25",
-    kicker: "PACIFIC FOG · 3 NIGHTS",
-    summary: "从海湾的雾、红色桥塔和码头灯光开始，让城市节奏为长途自驾预热。",
-    highlights: ["Golden Gate Bridge", "Alcatraz Island", "Fisherman’s Wharf"],
-    coordinates: [-122.4194, 37.7749],
-    image: "/places/san-francisco.jpg",
-  },
-  {
-    id: "yosemite",
-    number: "02",
-    name: "Yosemite",
-    cn: "优胜美地",
-    days: "DAYS 04—06",
-    dates: "SEP 26—28",
-    kicker: "GRANITE LIGHT · 3 DAYS",
-    summary: "进入花岗岩峡谷，在瀑布、草甸与 El Capitan 的巨大尺度之间慢下来。",
-    highlights: ["Cook’s Meadow", "El Capitan", "Glacier Point"],
-    coordinates: [-119.5383, 37.7459],
-    image: "/places/yosemite.jpg",
-  },
-  {
-    id: "visalia",
-    number: "03",
-    name: "Visalia",
-    cn: "维塞利亚",
-    days: "DAY 06",
-    dates: "SEP 28",
-    kicker: "VALLEY PAUSE · 1 NIGHT",
-    summary: "从山谷驶向中央谷地，在进入巨木森林前补给、入住并短暂休整。",
-    highlights: ["Scenic drive", "Hotel check-in", "Evening walk"],
-    coordinates: [-119.2921, 36.3302],
-    image: "/places/yosemite.jpg",
-  },
-  {
-    id: "sequoia",
-    number: "04",
-    name: "Sequoia",
-    cn: "红杉国家公园",
-    days: "DAY 07",
-    dates: "SEP 29",
-    kicker: "GIANT FOREST · 1 DAY",
-    summary: "在 General Sherman Tree 下重新理解“巨大”，沿短步道穿行古老森林。",
-    highlights: ["Foothills Visitor Center", "General Sherman Tree", "Lincoln Tree trail"],
-    coordinates: [-118.7511, 36.5819],
-    image: "/places/sequoia.jpg",
-  },
-  {
-    id: "death-valley",
-    number: "05",
-    name: "Death Valley",
-    cn: "死亡谷",
-    days: "DAYS 08—09",
-    dates: "SEP 30—OCT 1",
-    kicker: "DESERT DUSK · 2 DAYS",
-    summary: "从沙丘走到海平面以下，再把一天留给 Artist’s Palette 与金色日落。",
-    highlights: ["Mesquite Flat Dunes", "Badwater Basin", "Zabriskie Point"],
-    coordinates: [-116.8668, 36.4626],
-    image: "/places/death-valley.jpg",
-  },
-  {
-    id: "los-angeles",
-    number: "06",
-    name: "Los Angeles",
-    cn: "洛杉矶",
-    days: "DAYS 10—14",
-    dates: "OCT 2—6",
-    kicker: "COAST & CITY · 5 DAYS",
-    summary: "沿海岸线收尾：Santa Monica、Malibu、Griffith Observatory，以及攀岩与韩餐。",
-    highlights: ["Santa Monica", "Malibu Beach", "Griffith Observatory"],
-    coordinates: [-118.2437, 34.0522],
-    image: "/places/los-angeles.jpg",
-  },
-];
-
 const days: DayPlan[] = [
-  { day: 1, date: "9月23日 · 周三", place: "旧金山", stopId: "san-francisco", events: ["抵达 San Francisco", "酒店入住", "晚餐", "夜景 / 城市散步"], note: "提前下载国家公园离线地图" },
-  { day: 2, date: "9月24日 · 周四", place: "旧金山", stopId: "san-francisco", events: ["Golden Gate Bridge", "Palace of Fine Arts", "Baker Beach"] },
-  { day: 3, date: "9月25日 · 周五", place: "旧金山", stopId: "san-francisco", events: ["Alcatraz Island", "Pier 39", "Ghirardelli Square", "Fisherman’s Wharf", "Lombard Street"] },
-  { day: 4, date: "9月26日 · 周六", place: "优胜美地", stopId: "yosemite", events: ["取车", "前往 Yosemite", "酒店入住", "Cook’s Meadow Loop Trailhead", "Yosemite Falls"], note: "检查油量，准备饮用水和零食", drive: "约 4 小时 40 分" },
-  { day: 5, date: "9月27日 · 周日", place: "优胜美地", stopId: "yosemite", events: ["El Capitan", "Bouldering", "Bridalveil Falls Trail"] },
-  { day: 6, date: "9月28日 · 周一", place: "优胜美地 → 维塞利亚", stopId: "visalia", events: ["Glacier Point", "前往 Visalia", "酒店入住", "市区散步"], note: "加油地点待定", drive: "约 3 小时 30 分" },
-  { day: 7, date: "9月29日 · 周二", place: "红杉国家公园", stopId: "sequoia", events: ["前往 Sequoia National Park", "Foothills Visitor Center", "General Sherman Tree", "Lincoln Tree 附近短步道"], note: "加油地点待定", drive: "约 50 分钟" },
-  { day: 8, date: "9月30日 · 周三", place: "死亡谷", stopId: "death-valley", events: ["前往 Death Valley", "Furnace Creek Visitor Center", "酒店入住", "Mesquite Flat Sand Dunes", "Salt Creek Interpretive Trail · 待定"], note: "进入沙漠后换轻便鞋 / 拖鞋", drive: "约 6 小时" },
-  { day: 9, date: "10月1日 · 周四", place: "死亡谷", stopId: "death-valley", events: ["Badwater Basin", "Artist’s Palette", "Zabriskie Point", "Dante’s View", "返程途中看 Zabriskie Point 日落"] },
-  { day: 10, date: "10月2日 · 周五", place: "洛杉矶", stopId: "los-angeles", events: ["前往 Los Angeles", "Santa Monica Beach", "酒店入住", "散步 / 晚餐"], note: "加油地点待定", drive: "约 4 小时 45 分" },
-  { day: 11, date: "10月3日 · 周六", place: "洛杉矶海岸线", stopId: "los-angeles", events: ["Camarillo Premium Outlets", "沿海驾驶 · Malibu Beach", "酒店入住", "归还租车"] },
-  { day: 12, date: "10月4日 · 周日", place: "洛杉矶", stopId: "los-angeles", events: ["Griffith Observatory", "Hollywood 区域", "Los Angeles County Museum of Art", "BCD Tofu House"] },
-  { day: 13, date: "10月5日 · 周一", place: "洛杉矶", stopId: "los-angeles", events: ["The Stronghold Climbing Gym", "Quarters Korean BBQ"] },
-  { day: 14, date: "10月6日 · 周二", place: "LAX", stopId: "los-angeles", events: ["从 Los Angeles International Airport 离境"] },
+  { day: 0, date: "9月21日 · 周一", place: "北京 → 仁川", hotelId: "grand-hyatt-incheon", events: [{ time: "10:30–12:30", label: "PEK 办理值机 / 安检" }, { time: "13:30–16:30", label: "KE856 · Beijing → Seoul" }, { time: "16:30–18:15", label: "入境 / 接驳 / 酒店入住" }, { time: "9/22 · 11:00 / 13:00", label: "退房 / 前往机场办理值机" }, { time: "9/22 · 16:00–11:00", label: "KE023 · Seoul → San Francisco（当地时间）" }], note: "航班时刻以出票信息为准" },
+  { day: 1, date: "9月22日 · 周二", place: "抵达旧金山", hotelId: "hotel-caza", events: [{ time: "11:00–14:00", label: "SFO 抵达 / 入境 / 接送" }, { time: "14:00–16:00", label: "寄存行李 / 午餐 / 休息" }, { time: "16:00–16:30", label: "酒店入住" }, { time: "17:30–20:30", label: "晚餐 / Fisherman’s Wharf 夜间散步" }], note: "提前下载离线地图；酒店通常可在入住前寄存行李" },
+  { day: 2, date: "9月23日 · 周三", place: "金门与海岸", hotelId: "hotel-caza", events: [{ time: "08:00–09:15", label: "Golden Gate Bridge" }, { time: "09:30–10:30", label: "Palace of Fine Arts / Crissy Field" }, { time: "10:45–15:00", label: "Baker Beach / 午餐 / 回酒店休息" }], note: "下午保留弹性，照顾时差与脚部恢复" },
+  { day: 3, date: "9月24日 · 周四", place: "恶魔岛与渔人码头", hotelId: "hotel-caza", events: [{ time: "08:40–12:00", label: "Alcatraz Island（预约约 09:10 轮渡）" }, { time: "12:15–13:30", label: "Pier 39" }, { time: "13:45–14:30", label: "Ghirardelli Square" }, { time: "14:30–16:00", label: "Fisherman’s Wharf" }, { time: "16:15–17:15", label: "Lombard Street" }], note: "提前预订官方轮渡，并提前约 30 分钟抵达 Pier 33" },
+  { day: 4, date: "9月25日 · 周五", place: "Golden Gate Park 与 Mission", hotelId: "hotel-caza", events: [{ time: "09:00–09:30", label: "前往 Golden Gate Park" }, { time: "09:30–13:00", label: "California Academy of Sciences" }, { time: "13:00–14:30", label: "午餐 / Japanese Tea Garden" }, { time: "15:00–16:00", label: "Painted Ladies / Alamo Square" }, { time: "16:30–20:00", label: "Mission District / Dolores Park / 晚餐" }], note: "新增旧金山一天；跨区段优先使用网约车或 Muni" },
+  { day: 5, date: "9月26日 · 周六", place: "旧金山 → 优胜美地", hotelId: "yosemite-valley-lodge", events: [{ time: "08:00–09:30", label: "取车 / 加油 / 补给" }, { time: "09:30–16:30", label: "前往 Yosemite（含午餐与拥堵缓冲）" }, { time: "16:30–17:00", label: "酒店入住" }, { time: "17:05–17:45", label: "Cook’s Meadow Loop 短平路段" }, { time: "17:50–18:50", label: "Lower Yosemite Fall / 日落" }], note: "2026 无需车辆预约，但周六入口与山谷仍可能拥堵", drive: "约 5 小时 + 缓冲" },
+  { day: 6, date: "9月27日 · 周日", place: "优胜美地山谷", hotelId: "yosemite-valley-lodge", events: [{ time: "08:00–09:15", label: "El Capitan Meadow / Valley View" }, { time: "09:30–13:00", label: "Bouldering / 弹性休息" }, { time: "14:30–16:30", label: "Bridalveil Fall / Tunnel View" }], note: "停车后尽量使用山谷接驳车；脚部不适则缩短徒步" },
+  { day: 7, date: "9月28日 · 周一", place: "Glacier Point → 维塞利亚", hotelId: "visalia-marriott", events: [{ time: "07:15–10:45", label: "Glacier Point（含往返山路）" }, { time: "10:45–15:30", label: "前往 Visalia（含午餐 / 加油）" }, { time: "16:00–16:30", label: "酒店入住" }, { time: "17:30–19:30", label: "Downtown Visalia 晚餐 / 轻松散步" }], note: "出发前确认 Glacier Point Road 路况", drive: "约 4 小时 45 分" },
+  { day: 8, date: "9月29日 · 周二", place: "红杉国家公园", hotelId: "visalia-marriott", events: [{ time: "06:30–08:30", label: "前往 General Sherman 区域" }, { time: "08:30–10:00", label: "General Sherman Tree" }, { time: "10:15–13:00", label: "Congress Trail 短段 / Giant Forest / 午餐" }, { time: "13:00–16:30", label: "Giant Forest Museum / 沿途观景 / 返回 Visalia" }], note: "山路狭窄弯曲；Sherman 主步道返回段为上坡", drive: "约 4 小时往返" },
+  { day: 9, date: "9月30日 · 周三", place: "维塞利亚 → 圣莫尼卡", hotelId: "shore-hotel", events: [{ time: "08:30–13:00", label: "前往 Santa Monica（含休息与进城缓冲）" }, { time: "13:00–14:00", label: "午餐 / 寄存行李" }, { time: "14:00–16:00", label: "Santa Monica Pier / 海滩" }, { time: "16:00–20:00", label: "酒店入住 / 日落 / 晚餐" }], note: "新版取消 Death Valley，接近洛杉矶时用实时导航复核", drive: "约 4 小时 30 分" },
+  { day: 10, date: "10月1日 · 周四", place: "Camarillo 与 Malibu", hotelId: "shore-hotel", events: [{ time: "08:30–10:00", label: "前往 Camarillo Premium Outlets" }, { time: "10:00–13:30", label: "Camarillo Premium Outlets" }, { time: "13:30–17:00", label: "Malibu 海岸驾驶 / 精选海滩停靠" }, { time: "17:00–20:30", label: "返回 Santa Monica / 日落 / 晚餐" }], note: "新增洛杉矶一天；Malibu 只选一至两个停靠点", drive: "约 3 小时" },
+  { day: 11, date: "10月2日 · 周五", place: "Venice → LAX → Koreatown", hotelId: "line-la", events: [{ time: "08:30–11:30", label: "Venice Beach / Abbot Kinney" }, { time: "11:30–13:00", label: "午餐 / 酒店退房" }, { time: "13:00–15:30", label: "加油 / 前往 LAX / 还车" }, { time: "15:30–18:00", label: "Uber / Lyft 前往 Koreatown / 入住 / 晚餐" }], note: "周五高峰前还车；LAX 到 Koreatown 仍可能超过一小时" },
+  { day: 12, date: "10月3日 · 周六", place: "洛杉矶经典城市线", hotelId: "line-la", events: [{ time: "09:00–12:30", label: "Griffith Observatory（含交通 / 停车）" }, { time: "13:00–14:30", label: "Hollywood 区域" }, { time: "15:00–17:30", label: "Los Angeles County Museum of Art" }, { time: "18:30–20:00", label: "BCD Tofu House" }], note: "周六天文台 10:00 开放；LACMA 当前周六 10:00–19:00" },
+  { day: 13, date: "10月4日 · 周日", place: "攀岩与韩餐", hotelId: "line-la", events: [{ time: "10:00–14:00", label: "The Stronghold Climbing Gym" }, { time: "17:30–20:00", label: "Quarters Korean BBQ（建议早到）" }], note: "确认分店与周日时间；脚部无痛且状态适合时再攀爬" },
+  { day: 14, date: "10月5日 · 周一", place: "LAX 离境", hotelId: "line-la", events: [{ time: "待定", label: "酒店退房 / 寄存行李 / 机场接送" }, { time: "待定", label: "从 LAX 离境" }], note: "航班仍待定；酒店约提前 4.5 小时出发，争取提前 3 小时抵达 LAX" },
 ];
 
-const routeCoordinates: [number, number][] = [
-  [-122.4194, 37.7749],
-  [-121.887, 37.668],
-  [-120.93, 37.67],
-  [-119.5383, 37.7459],
-  [-119.64, 36.74],
-  [-119.2921, 36.3302],
-  [-118.7511, 36.5819],
-  [-118.98, 35.39],
-  [-117.67, 35.62],
-  [-116.8668, 36.4626],
-  [-117.29, 35.29],
-  [-118.2437, 34.0522],
-];
+type RouteSelection = number | "all";
 
-const gallery = [
-  { src: "/places/san-francisco.jpg", label: "01 / BAY LIGHT", caption: "Golden Gate · San Francisco" },
-  { src: "/places/yosemite.jpg", label: "02 / GRANITE", caption: "Yosemite Valley" },
-  { src: "/places/sequoia.jpg", label: "04 / GIANT FOREST", caption: "Sequoia National Park" },
-  { src: "/places/death-valley.jpg", label: "05 / DESERT", caption: "Mesquite Flat Sand Dunes" },
-  { src: "/places/los-angeles.jpg", label: "06 / CITY LIGHT", caption: "Griffith Observatory" },
-];
+function toLatLng(point: RoutePoint): [number, number] {
+  return [point.coordinates[1], point.coordinates[0]];
+}
+
+function routeLatLngs(points: RoutePoint[]) {
+  const coordinates = points.filter((point) => point.status !== "closed").map(toLatLng);
+  return coordinates.length === 1 ? [coordinates[0], coordinates[0]] : coordinates;
+}
+
+function formatTravel(point: RoutePoint) {
+  if (point.status === "closed") return "当前关闭，跳过";
+  const duration = formatMinutes(point.travelMinutes);
+  return point.travelLabel ? `${point.travelLabel} · ${duration}` : duration;
+}
 
 export default function Home() {
   const mapNodeRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<MapLibreMap | null>(null);
-  const [selectedStopId, setSelectedStopId] = useState(stops[0].id);
+  const mapRef = useRef<LeafletMap | null>(null);
+  const routeLinesRef = useRef<Polyline[]>([]);
+  const [selectedRouteDay, setSelectedRouteDay] = useState<RouteSelection>("all");
+  const [selectedPointId, setSelectedPointId] = useState(allRoutePoints[0].id);
   const [openDay, setOpenDay] = useState(1);
   const [mapReady, setMapReady] = useState(false);
+  const [mapError, setMapError] = useState(false);
+  const [baseMapUnavailable, setBaseMapUnavailable] = useState(false);
 
-  const selectedStop = useMemo(
-    () => stops.find((stop) => stop.id === selectedStopId) ?? stops[0],
-    [selectedStopId],
+  const selectedDay = useMemo(
+    () => typeof selectedRouteDay === "number" ? optimizedDays.find((day) => day.day === selectedRouteDay) : undefined,
+    [selectedRouteDay],
   );
+  const activePoints = selectedDay?.points ?? allRoutePoints;
+  const selectedPoint = allRoutePoints.find((point) => point.id === selectedPointId) ?? activePoints[0];
+  const selectedPointDay = optimizedDays.find((day) => day.day === selectedPoint.day);
+  const activeHotel = hotelStays.find((hotel) => hotel.id === (selectedDay?.hotelId ?? selectedPointDay?.hotelId));
+  const activeTravelMinutes = activePoints.reduce((total, point) => total + (point.status === "closed" ? 0 : point.travelMinutes), 0);
+  const activeVisitMinutes = activePoints.reduce((total, point) => total + (point.status === "closed" ? 0 : point.visitMinutes), 0);
 
   useEffect(() => {
     let disposed = false;
-    const markers: Array<{ remove: () => void }> = [];
 
     async function mountMap() {
-      const maplibreModule = await import("maplibre-gl");
-      if (disposed || !mapNodeRef.current) return;
+      try {
+        const leaflet = await import("leaflet");
+        if (disposed || !mapNodeRef.current) return;
 
-      const maplibre = maplibreModule.default;
-      const map = new maplibre.Map({
-        container: mapNodeRef.current,
-        style: "https://tiles.openfreemap.org/styles/bright",
-        center: [-119.45, 36.15],
-        zoom: 5,
-        minZoom: 4,
-        maxZoom: 13,
-        attributionControl: true,
-      });
+        const map = leaflet.map(mapNodeRef.current, {
+          center: [36.1, -120.1],
+          zoom: 5,
+          minZoom: 4,
+          maxZoom: 13,
+          zoomControl: false,
+        });
 
-      mapRef.current = map;
-      map.addControl(new maplibre.NavigationControl({ showCompass: false }), "top-right");
+        mapRef.current = map;
+        leaflet.control.zoom({ position: "topright" }).addTo(map);
 
-      map.on("load", () => {
-        if (disposed) return;
-        setMapReady(true);
-        map.addSource("road-trip-route", {
-          type: "geojson",
-          lineMetrics: true,
-          data: {
-            type: "Feature",
-            properties: {},
-            geometry: { type: "LineString", coordinates: routeCoordinates },
+        const esriTiles = leaflet.tileLayer(
+          "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+          {
+            attribution: "Tiles &copy; Esri — Sources: Esri, HERE, Garmin, USGS and the GIS User Community",
+            maxZoom: 19,
           },
-        });
-        map.addLayer({
-          id: "road-trip-route-shadow",
-          type: "line",
-          source: "road-trip-route",
-          layout: { "line-cap": "round", "line-join": "round" },
-          paint: { "line-color": "#f5efdf", "line-width": 9, "line-opacity": 0.9 },
-        });
-        map.addLayer({
-          id: "road-trip-route",
-          type: "line",
-          source: "road-trip-route",
-          layout: { "line-cap": "round", "line-join": "round" },
-          paint: {
-            "line-width": 4,
-            "line-gradient": ["interpolate", ["linear"], ["line-progress"], 0, "#2452c7", 0.66, "#2452c7", 1, "#e84a2f"],
-          },
-        });
-        map.fitBounds([[-123.12, 33.45], [-116.08, 38.35]], { padding: 64, duration: 0 });
-      });
+        );
+        let esriTileErrors = 0;
+        let esriTileLoaded = false;
+        let fallbackActive = false;
 
-      stops.forEach((stop) => {
-        const markerButton = document.createElement("button");
-        markerButton.type = "button";
-        markerButton.className = "atlas-marker";
-        markerButton.dataset.stopId = stop.id;
-        markerButton.setAttribute("aria-label", `${stop.number} ${stop.cn} ${stop.name}`);
-        markerButton.innerHTML = `<span>${stop.number}</span><em>${stop.name}</em>`;
-        markerButton.addEventListener("click", () => selectStop(stop.id, false));
+        const activateFallback = () => {
+          if (disposed || fallbackActive) return;
+          fallbackActive = true;
+          map.removeLayer(esriTiles);
 
-        const marker = new maplibre.Marker({ element: markerButton, anchor: "center" })
-          .setLngLat(stop.coordinates)
-          .addTo(map);
-        markers.push(marker);
-      });
+          const osmFallback = leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 19,
+          });
+          let fallbackTileErrors = 0;
+          osmFallback.on("tileload", () => {
+            fallbackTileErrors = 0;
+            if (!disposed) setBaseMapUnavailable(false);
+          });
+          osmFallback.on("tileerror", () => {
+            fallbackTileErrors += 1;
+            if (!disposed && fallbackTileErrors >= 4) setBaseMapUnavailable(true);
+          });
+          osmFallback.addTo(map);
+        };
+
+        esriTiles.on("tileload", () => {
+          esriTileLoaded = true;
+          esriTileErrors = 0;
+          if (!disposed) setBaseMapUnavailable(false);
+        });
+        esriTiles.on("tileerror", () => {
+          esriTileErrors += 1;
+          if (esriTileErrors >= 3) activateFallback();
+        });
+        esriTiles.addTo(map);
+
+        window.setTimeout(() => {
+          if (!disposed && !fallbackActive && !esriTileLoaded) activateFallback();
+        }, 5000);
+
+        const initialRoute = routeLatLngs(allRoutePoints);
+        routeLinesRef.current = [
+          leaflet.polyline(initialRoute, {
+            color: "#f5efdf",
+            weight: 9,
+            opacity: 0.9,
+            lineCap: "round",
+            lineJoin: "round",
+            interactive: false,
+          }).addTo(map),
+          leaflet.polyline(initialRoute, {
+            color: "#2452c7",
+            weight: 4,
+            opacity: 1,
+            lineCap: "round",
+            lineJoin: "round",
+            interactive: false,
+          }).addTo(map),
+        ];
+
+        map.fitBounds([[33.45, -123.12], [38.35, -118.02]], { padding: [64, 64], animate: false });
+
+        allRoutePoints.forEach((point) => {
+          const markerButton = document.createElement("button");
+          markerButton.type = "button";
+          markerButton.className = `atlas-marker ${point.status === "closed" ? "is-closed" : ""}`;
+          markerButton.dataset.pointId = point.id;
+          markerButton.dataset.day = String(point.day);
+          markerButton.setAttribute("aria-label", `Day ${point.day}, stop ${point.order}, ${point.name}`);
+          markerButton.innerHTML = `<span>${point.day}·${point.order}</span><em>${point.name}</em>`;
+          markerButton.addEventListener("click", () => {
+            setSelectedRouteDay(point.day);
+            setSelectedPointId(point.id);
+          });
+
+          leaflet.marker(toLatLng(point), {
+            icon: leaflet.divIcon({
+              className: "leaflet-atlas-icon",
+              html: markerButton,
+              iconSize: [32, 32],
+              iconAnchor: [16, 16],
+            }),
+            keyboard: false,
+          }).addTo(map);
+        });
+
+        hotelStays.filter((hotel) => hotel.coordinates).forEach((hotel) => {
+          const hotelButton = document.createElement("button");
+          hotelButton.type = "button";
+          hotelButton.className = "hotel-marker";
+          hotelButton.dataset.hotelId = hotel.id;
+          hotelButton.dataset.dayFrom = String(hotel.dayFrom);
+          hotelButton.dataset.dayTo = String(hotel.dayTo);
+          hotelButton.setAttribute("aria-label", `${hotel.cn}，${hotel.dates}，${hotel.nights} 晚`);
+          hotelButton.innerHTML = `<span>H</span><em>${hotel.name}</em>`;
+          hotelButton.addEventListener("click", () => {
+            setSelectedRouteDay(hotel.dayFrom);
+            const firstPoint = optimizedDays.find((day) => day.day === hotel.dayFrom)?.points[0];
+            if (firstPoint) setSelectedPointId(firstPoint.id);
+          });
+
+          leaflet.marker([hotel.coordinates![1], hotel.coordinates![0]], {
+            icon: leaflet.divIcon({
+              className: "leaflet-hotel-icon",
+              html: hotelButton,
+              iconSize: [30, 30],
+              iconAnchor: [15, 15],
+            }),
+            keyboard: false,
+          }).addTo(map);
+        });
+
+        if (!disposed) {
+          map.invalidateSize();
+          setMapReady(true);
+        }
+      } catch (error) {
+        console.error("Map initialization failed", error);
+        if (!disposed) {
+          setMapError(true);
+          setMapReady(false);
+        }
+      }
     }
 
-    mountMap();
+    void mountMap();
     return () => {
       disposed = true;
-      markers.forEach((marker) => marker.remove());
+      routeLinesRef.current = [];
       mapRef.current?.remove();
       mapRef.current = null;
     };
   }, []);
 
   useEffect(() => {
-    document.querySelectorAll<HTMLElement>(".atlas-marker").forEach((marker) => {
-      marker.classList.toggle("is-active", marker.dataset.stopId === selectedStopId);
-    });
-  }, [selectedStopId, mapReady]);
+    const points = selectedDay?.points ?? allRoutePoints;
+    const openPoints = points.filter((point) => point.status !== "closed");
+    const latLngs = routeLatLngs(points);
+    routeLinesRef.current.forEach((line) => line.setLatLngs(latLngs));
 
-  function selectStop(id: string, moveMap = true) {
-    const stop = stops.find((item) => item.id === id);
-    if (!stop) return;
-    setSelectedStopId(id);
-    if (moveMap) {
-      mapRef.current?.flyTo({ center: stop.coordinates, zoom: id === "san-francisco" || id === "los-angeles" ? 8.2 : 7.1, duration: 900 });
+    document.querySelectorAll<HTMLElement>(".atlas-marker").forEach((marker) => {
+      marker.classList.toggle("is-active", marker.dataset.pointId === selectedPointId);
+      marker.classList.toggle("is-muted", selectedRouteDay !== "all" && marker.dataset.day !== String(selectedRouteDay));
+    });
+    document.querySelectorAll<HTMLElement>(".hotel-marker").forEach((marker) => {
+      const dayFrom = Number(marker.dataset.dayFrom);
+      const dayTo = Number(marker.dataset.dayTo);
+      const isInSelectedDay = selectedRouteDay === "all" || (typeof selectedRouteDay === "number" && selectedRouteDay >= dayFrom && selectedRouteDay <= dayTo);
+      marker.classList.toggle("is-muted", !isInSelectedDay);
+      marker.classList.toggle("is-active", marker.dataset.hotelId === activeHotel?.id);
+    });
+
+    if (!mapReady || !mapRef.current || !openPoints.length) return;
+    if (openPoints.length === 1) {
+      mapRef.current.flyTo(toLatLng(openPoints[0]), 10, { duration: 0.85 });
+      return;
     }
+    mapRef.current.fitBounds(
+      openPoints.map(toLatLng),
+      { padding: selectedRouteDay === "all" ? [64, 64] : [92, 92], animate: true, duration: 0.85, maxZoom: 11 },
+    );
+  }, [activeHotel?.id, selectedDay, selectedPointId, selectedRouteDay, mapReady]);
+
+  function selectRouteDay(day: RouteSelection) {
+    setSelectedRouteDay(day);
+    if (day === "all") return;
+    const firstPoint = optimizedDays.find((item) => item.day === day)?.points[0];
+    if (firstPoint) setSelectedPointId(firstPoint.id);
   }
 
   function selectDay(plan: DayPlan) {
-    setOpenDay((current) => (current === plan.day ? 0 : plan.day));
-    selectStop(plan.stopId);
+    setOpenDay((current) => (current === plan.day ? -1 : plan.day));
+    if (plan.day > 0) selectRouteDay(plan.day);
   }
 
   return (
@@ -267,10 +280,10 @@ export default function Home() {
         </a>
         <nav aria-label="页面导航">
           <a href="#route">路线</a>
+          <a href="#stays">住宿</a>
           <a href="#journal">每日行程</a>
-          <a href="#notes">出发提醒</a>
         </nav>
-        <div className="header-date">SEP 23 — OCT 6</div>
+        <div className="header-date">SEP 21 — OCT 5</div>
       </header>
 
       <section className="hero" id="top">
@@ -282,17 +295,17 @@ export default function Home() {
           <p className="eyebrow">A CALIFORNIA FIELD JOURNAL · 2026</p>
           <h1>
             California,
-            <span>written in light</span>
+            <span>Linna &amp; Wooju</span>
           </h1>
-          <p className="hero-deck">十四天，从太平洋的雾出发，穿过花岗岩、古老巨木与沙漠暮色，抵达洛杉矶的城市灯光。</p>
+          <p className="hero-deck">从仁川转机夜开始，十四天穿过太平洋的雾、花岗岩与古老巨木，沿南加州海岸抵达洛杉矶的城市灯光。</p>
           <a className="route-cta" href="#route">
             展开路线 <span aria-hidden="true">↓</span>
           </a>
         </div>
         <div className="hero-facts" aria-label="旅行概览">
-          <div><b>14</b><span>DAYS</span></div>
-          <div><b>6</b><span>REGIONS</span></div>
-          <div><b>5</b><span>MAJOR DRIVES</span></div>
+          <div><b>15</b><span>CALENDAR DAYS</span></div>
+          <div><b>{allRoutePoints.length}</b><span>ROUTE STOPS</span></div>
+          <div><b>{hotelStays.length}</b><span>HOTEL STAYS</span></div>
         </div>
         <div className="hero-stamp">
           <span>37.7749° N</span>
@@ -304,83 +317,150 @@ export default function Home() {
       <section className="route-section" id="route">
         <div className="section-heading">
           <div>
-            <p className="eyebrow blue">ROUTE 01—06 / WESTERN FIELD NOTES</p>
-            <h2>一条路，六个章节</h2>
+            <p className="eyebrow blue">OPTIMIZED ROUTE / {allRoutePoints.length} COORDINATES</p>
+            <h2>所有景点，一张地图</h2>
           </div>
-          <p>点击地图路标查看章节；路线为旅程概览，实际驾驶请以当天导航与道路状况为准。</p>
+          <p>已按每天少折返、顺路衔接的原则重新排序。点击 D1—D14 放大当天路线，再点编号查看到达时间与建议观光时长。</p>
+        </div>
+
+        <div className="day-route-tabs" aria-label="选择地图日期">
+          <button
+            type="button"
+            className={selectedRouteDay === "all" ? "is-active" : ""}
+            aria-pressed={selectedRouteDay === "all"}
+            onClick={() => selectRouteDay("all")}
+          >
+            <span>ALL</span><b>全部 {allRoutePoints.length} 站</b>
+          </button>
+          {optimizedDays.map((day) => (
+            <button
+              key={day.day}
+              type="button"
+              className={selectedRouteDay === day.day ? "is-active" : ""}
+              aria-pressed={selectedRouteDay === day.day}
+              onClick={() => selectRouteDay(day.day)}
+            >
+              <span>D{String(day.day).padStart(2, "0")}</span><b>{day.title}</b>
+            </button>
+          ))}
         </div>
 
         <div className="atlas-frame">
           <div className="map-panel">
-            <div ref={mapNodeRef} className="route-map" aria-label="加州公路旅行交互地图" />
-            {!mapReady && <div className="map-loading">正在展开路线图…</div>}
+            <div ref={mapNodeRef} className="route-map" aria-label="包含全部景点、逐日顺序和路线的加州旅行交互地图" />
+            {!mapReady && !mapError && <div className="map-loading">正在展开路线图…</div>}
+            {mapError && <div className="map-error" role="status"><b>地图暂时无法加载</b><span>全部路线、时间与地点仍可在右侧查看。</span></div>}
+            {baseMapUnavailable && <div className="map-network-note" role="status">底图网络受限，路线与地点标记仍可正常使用</div>}
             <div className="map-index">PACIFIC<br />OCEAN</div>
-            <div className="map-scale"><i /> APPROX. 100 MILES</div>
+            <div className="map-legend"><i className="legend-open" /> 景点 / 交通节点 <i className="legend-hotel" /> 酒店</div>
           </div>
 
-          <aside className="stop-card" aria-live="polite">
-            <div className="stop-card-image">
-              <img src={selectedStop.image} alt={`${selectedStop.name} 目的地风景`} />
-              <span>{selectedStop.kicker}</span>
-            </div>
-            <div className="stop-card-body">
-              <div className="stop-card-meta">
-                <span>{selectedStop.days}</span>
-                <b>{selectedStop.number}</b>
+          <aside className="route-planner" aria-live="polite">
+            <div className="planner-heading">
+              <p>{selectedDay ? `DAY ${String(selectedDay.day).padStart(2, "0")} · ${selectedDay.date}` : "ALL DAYS · SEP 22 — OCT 5"}</p>
+              <h3>{selectedDay?.title ?? "加州全程总览"}</h3>
+              <div className="planner-metrics">
+                <div><span>预计交通</span><b>{formatMinutes(activeTravelMinutes)}</b></div>
+                <div><span>建议观光</span><b>{formatMinutes(activeVisitMinutes)}</b></div>
               </div>
-              <p>{selectedStop.dates}</p>
-              <h3>{selectedStop.cn}<small>{selectedStop.name}</small></h3>
-              <div className="chapter-rule" />
-              <p className="stop-summary">{selectedStop.summary}</p>
-              <ol>
-                {selectedStop.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
-              </ol>
             </div>
+
+            <div className="selected-point">
+              <div className="selected-point-index">{selectedPoint.day}·{selectedPoint.order}</div>
+              <div>
+                <p>SELECTED STOP</p>
+                <h4>{selectedPoint.name}<small>DAY {String(selectedPoint.day).padStart(2, "0")} · STOP {String(selectedPoint.order).padStart(2, "0")}</small></h4>
+                <div className="selected-point-times">
+                  <span>计划 · {routePointTimes[selectedPoint.id]}</span>
+                  <span>{selectedPoint.travelMode} · {formatTravel(selectedPoint)}</span>
+                  <span>建议停留 · {formatMinutes(selectedPoint.visitMinutes)}</span>
+                </div>
+                {selectedPoint.note && <p className="point-note">{selectedPoint.note}</p>}
+              </div>
+            </div>
+
+            {activeHotel && (
+              <a className="planner-hotel" href={activeHotel.website} target="_blank" rel="noreferrer">
+                <span>STAY · {activeHotel.dates} · {activeHotel.nights} 晚</span>
+                <b>{activeHotel.cn}</b>
+                <small>{activeHotel.name} · 入住 {activeHotel.checkIn}</small>
+              </a>
+            )}
+
+            {selectedDay ? (
+              <ol className="route-sequence" aria-label={`第 ${selectedDay.day} 天推荐顺序`}>
+                {selectedDay.points.map((point) => (
+                  <li key={point.id} className={`${point.id === selectedPointId ? "is-active" : ""} ${point.status === "closed" ? "is-closed" : ""}`}>
+                    <button type="button" onClick={() => setSelectedPointId(point.id)}>
+                      <span className="sequence-number">{String(point.order).padStart(2, "0")}</span>
+                      <span className="sequence-place"><em>{routePointTimes[point.id]}</em><b>{point.name}</b><small>DAY {String(point.day).padStart(2, "0")} · STOP {String(point.order).padStart(2, "0")}</small></span>
+                      <span className="sequence-time"><b>{point.travelMode}</b><small>{formatTravel(point)}</small></span>
+                      <span className="sequence-visit"><b>观光</b><small>{formatMinutes(point.visitMinutes)}</small></span>
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <div className="all-days-index">
+                <p>地图已显示 14 天的 {allRoutePoints.length} 个坐标点；选择某一天，可查看当天的最优顺序与每一段时间。</p>
+                <div>
+                  {optimizedDays.map((day) => (
+                    <button key={day.day} type="button" onClick={() => selectRouteDay(day.day)}>
+                      <span>D{String(day.day).padStart(2, "0")}</span><b>{day.title}</b><small>{day.points.length} 站</small>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <p className="planner-disclaimer">时间为非实时规划估算，不含停车、排队、用餐和临时封路；出发当天请用导航复核。</p>
           </aside>
         </div>
 
-        <div className="route-tabs" aria-label="目的地章节">
-          {stops.map((stop) => (
-            <button
-              key={stop.id}
-              type="button"
-              className={selectedStopId === stop.id ? "is-active" : ""}
-              aria-pressed={selectedStopId === stop.id}
-              onClick={() => selectStop(stop.id)}
-            >
-              <span>{stop.number}</span>
-              <b>{stop.cn}</b>
-              <small>{stop.name}</small>
-            </button>
-          ))}
+        <div className="route-method">
+          <p><b>路线逻辑</b> 同一片区按地理方向串联，步行街区集中处理，日落点放在每日最后；每天首段从当晚酒店或对应城市中心估算。地图连线表达顺序，不代替逐路口导航。</p>
+          <p><b>状态依据</b> 新版已经取消 Death Valley；国家公园路况仍会快速变化。出发前查看
+            <a href="https://www.nps.gov/yose/planyourvisit/index.htm" target="_blank" rel="noreferrer"> Yosemite 行前信息</a> 与
+            <a href="https://www.nps.gov/seki/planyourvisit/visitorcenters.htm" target="_blank" rel="noreferrer">Sequoia 游客中心</a>。
+          </p>
+          <p><b>时长参考</b> 恶魔岛按官方建议保留 2–3 小时；Griffith Observatory 按周六 10:00 开放安排上午到达。查看
+            <a href="https://home.nps.gov/alca/planyourvisit/things2do.htm" target="_blank" rel="noreferrer"> Alcatraz 建议</a> 与
+            <a href="https://griffithobservatory.org/?topic_id=17" target="_blank" rel="noreferrer">Griffith 开放信息</a>。
+          </p>
         </div>
       </section>
 
-      <section className="gallery-section" aria-label="目的地影像">
-        <div className="gallery-title">
-          <p className="eyebrow">FRAME BY FRAME</p>
-          <h2>雾、岩石、森林与暮色</h2>
+      <section className="stays-section" id="stays">
+        <div className="stays-intro">
+          <p className="eyebrow blue">SIX STAYS / ONE CONTINUOUS ROUTE</p>
+          <h2>从转机夜，到太平洋边</h2>
+          <p>住宿完全按新版日期同步：旧金山四晚、Yosemite 两晚、Visalia 两晚、Santa Monica 两晚，最后转到 Koreatown 连住三晚。</p>
         </div>
-        <div className="gallery-grid">
-          {gallery.map((item, index) => (
-            <figure key={item.src} className={`gallery-item gallery-item-${index + 1}`}>
-              <img src={item.src} alt={item.caption} loading="lazy" />
-              <figcaption><span>{item.label}</span><b>{item.caption}</b></figcaption>
-            </figure>
+        <div className="stays-list">
+          {hotelStays.map((hotel, index) => (
+            <a key={hotel.id} href={hotel.website} target="_blank" rel="noreferrer" className="stay-row">
+              <span className="stay-index">H{String(index + 1).padStart(2, "0")}</span>
+              <span className="stay-dates">{hotel.dates}<small>{hotel.nights} NIGHT{hotel.nights > 1 ? "S" : ""}</small></span>
+              <span className="stay-name"><b>{hotel.cn}</b><small>{hotel.name}</small></span>
+              <span className="stay-address">{hotel.address}<small>IN {hotel.checkIn} · OUT {hotel.checkOut}</small></span>
+              <span className="stay-arrow" aria-hidden="true">↗</span>
+              <span className="stay-note">{hotel.note}</span>
+            </a>
           ))}
         </div>
       </section>
 
       <section className="journal-section" id="journal">
         <div className="journal-intro">
-          <p className="eyebrow red">THE DAILY LOG / SEP 23 — OCT 6</p>
-          <h2>十四天，每一天都有坐标</h2>
-          <p>景点、驾驶时间与原表格里的提醒都整理在这里。点开任意一天，地图会同步移动到对应章节。</p>
+          <p className="eyebrow red">THE DAILY LOG / SEP 21 — OCT 5</p>
+          <h2>从 Day 0 开始，每小时都有去处</h2>
+          <p>新版表格里的航班、景点、入住时间和驾驶节点已经排进时间轴。点开 D1—D14，地图会同步移动到当天路线。</p>
         </div>
 
         <div className="day-list">
           {days.map((plan) => {
             const isOpen = plan.day === openDay;
+            const planHotel = hotelStays.find((hotel) => hotel.id === plan.hotelId);
             return (
               <article key={plan.day} className={`day-card ${isOpen ? "is-open" : ""}`}>
                 <button type="button" onClick={() => selectDay(plan)} aria-expanded={isOpen}>
@@ -392,9 +472,14 @@ export default function Home() {
                 <div className="day-content">
                   <ol>
                     {plan.events.map((event, eventIndex) => (
-                      <li key={`${plan.day}-${event}`}><span>{String(eventIndex + 1).padStart(2, "0")}</span>{event}</li>
+                      <li key={`${plan.day}-${event.label}`}>
+                        <span>{String(eventIndex + 1).padStart(2, "0")}</span>
+                        <time>{event.time}</time>
+                        <b>{event.label}</b>
+                      </li>
                     ))}
                   </ol>
+                  {planHotel && <a className="day-hotel" href={planHotel.website} target="_blank" rel="noreferrer"><span>STAY</span><b>{planHotel.name}</b><small>{planHotel.dates} · 入住 {planHotel.checkIn}</small></a>}
                   {plan.note && <p className="field-note"><b>FIELD NOTE</b>{plan.note}</p>}
                 </div>
               </article>
@@ -403,30 +488,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="notes-section" id="notes">
-        <div className="notes-heading">
-          <p className="eyebrow">BEFORE THE ENGINE STARTS</p>
-          <h2>出发前，记住这四件事</h2>
-        </div>
-        <div className="notes-grid">
-          <article><span>01</span><h3>离线地图</h3><p>出发前下载国家公园区域地图；山谷与沙漠路段可能没有稳定信号。</p></article>
-          <article><span>02</span><h3>补给与油量</h3><p>进入 Yosemite、Sequoia 和 Death Valley 前检查油量，补充水与零食。</p></article>
-          <article><span>03</span><h3>沙漠装备</h3><p>Death Valley 日照强、地表热。准备轻便鞋、防晒、帽子和足量饮水。</p></article>
-          <article><span>04</span><h3>车辆节点</h3><p>旧金山第 4 天取车，洛杉矶第 11 天归还；预留停车与交接时间。</p></article>
-        </div>
-      </section>
-
       <footer>
         <div>
           <span>CALIFORNIA / 2026</span>
           <h2>See you where<br />the road bends.</h2>
         </div>
-        <p>路线依据《Trip planning.xlsx》整理。目的地摄影来自 Unsplash：
-          <a href="https://unsplash.com/photos/person-standing-on-bridge-taking-picture-cDw1OunQDOg" target="_blank" rel="noreferrer">San Francisco</a>、
-          <a href="https://unsplash.com/photos/a-view-of-a-valley-with-mountains-in-the-background-3_o3u8AeQw8" target="_blank" rel="noreferrer">Yosemite</a>、
-          <a href="https://unsplash.com/photos/giant-sequoia-trees-stand-tall-in-the-forest-15X_bz7tdsc" target="_blank" rel="noreferrer">Sequoia</a>、
-          <a href="https://unsplash.com/photos/a-desert-landscape-with-mountains-in-the-distance-coIQpWW5xjc" target="_blank" rel="noreferrer">Death Valley</a>、
-          <a href="https://unsplash.com/photos/a-large-building-with-a-dome-on-top-of-it-surrounded-by-trees-rMG_acMmyk0" target="_blank" rel="noreferrer">Los Angeles</a>。
+        <p>路线依据《Trip planning_260801_SF_LA_extra_days.xlsx》整理，开放时间与住宿信息以表格 Sources 页及各机构官方页面为准。封面摄影来自 Unsplash：
+          <a href="https://unsplash.com/photos/a-view-of-a-valley-with-mountains-in-the-background-3_o3u8AeQw8" target="_blank" rel="noreferrer">Yosemite Valley</a>。
         </p>
       </footer>
     </main>
