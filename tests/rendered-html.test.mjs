@@ -21,14 +21,17 @@ test("server-renders the revised California itinerary", async () => {
 
   const html = await response.text();
   assert.match(html, /California, Linna &amp; Wooju/);
-  assert.match(html, /40<\/b><span>ROUTE STOPS/);
-  assert.match(html, /6<\/b><span>HOTEL STAYS/);
-  assert.match(html, /Golden Gate Park 与 Mission/);
-  assert.match(html, /Camarillo → Malibu 海岸线/);
+  assert.match(html, /41<\/b><span>ROUTE STOPS/);
+  assert.match(html, /5<\/b><span>HOTEL STAYS/);
+  assert.match(html, /Napa Valley → Sacramento/);
+  assert.match(html, /Sand Harbor → Nevada Beach/);
+  assert.match(html, /Glacier Point &amp; High Country Views/);
+  assert.match(html, /Great Mall → Winchester Mystery House/);
   assert.match(html, /<h4>San Francisco International Airport<small>DAY /);
-  assert.match(html, /9\/22 — 9\/26/);
-  assert.match(html, /9\/30 — 10\/2/);
-  assert.doesNotMatch(html, /death-valley-ranch|Mesquite Flat Sand Dunes|Badwater Basin/);
+  assert.match(html, /9\/21 — 9\/24/);
+  assert.match(html, /9\/28 — 10\/1/);
+  assert.match(html, /10\/1 — 10\/4/);
+  assert.doesNotMatch(html, /仁川|Visalia|Sequoia|Santa Monica|Los Angeles/);
   assert.doesNotMatch(html, /FRAME BY FRAME|目的地影像|出发前，记住这四件事|href="#notes"/);
 });
 
@@ -36,11 +39,13 @@ test("keeps every map stop ordered and timed", async () => {
   const { allRoutePoints, hotelStays, optimizedDays, routePointTimes } = await import("../app/route-data.ts");
 
   assert.equal(optimizedDays.length, 14);
-  assert.equal(allRoutePoints.length, 40);
-  assert.equal(hotelStays.length, 6);
-  assert.equal(hotelStays.find((hotel) => hotel.id === "hotel-caza")?.nights, 4);
-  assert.equal(hotelStays.find((hotel) => hotel.id === "shore-hotel")?.nights, 2);
-  assert.equal(hotelStays.some((hotel) => hotel.id.includes("death-valley")), false);
+  assert.equal(allRoutePoints.length, 41);
+  assert.equal(hotelStays.length, 5);
+  assert.equal(hotelStays.find((hotel) => hotel.id === "hotel-caza")?.nights, 3);
+  assert.equal(hotelStays.find((hotel) => hotel.id === "alder-inn")?.nights, 3);
+  assert.equal(hotelStays.find((hotel) => hotel.id === "yosemite-view-lodge")?.nights, 3);
+  assert.equal(hotelStays.find((hotel) => hotel.id === "hyatt-san-jose")?.nights, 3);
+  assert.equal(hotelStays.some((hotel) => hotel.id.includes("los-angeles")), false);
 
   for (const day of optimizedDays) {
     day.points.forEach((point, index) => {

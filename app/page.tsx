@@ -15,21 +15,20 @@ type DayPlan = {
 };
 
 const days: DayPlan[] = [
-  { day: 0, date: "9月21日 · 周一", place: "北京 → 仁川", hotelId: "grand-hyatt-incheon", events: [{ time: "10:30–12:30", label: "PEK 办理值机 / 安检" }, { time: "13:30–16:30", label: "KE856 · Beijing → Seoul" }, { time: "16:30–18:15", label: "入境 / 接驳 / 酒店入住" }, { time: "9/22 · 11:00 / 13:00", label: "退房 / 前往机场办理值机" }, { time: "9/22 · 16:00–11:00", label: "KE023 · Seoul → San Francisco（当地时间）" }], note: "航班时刻以出票信息为准" },
-  { day: 1, date: "9月22日 · 周二", place: "抵达旧金山", hotelId: "hotel-caza", events: [{ time: "11:00–14:00", label: "SFO 抵达 / 入境 / 接送" }, { time: "14:00–16:00", label: "寄存行李 / 午餐 / 休息" }, { time: "16:00–16:30", label: "酒店入住" }, { time: "17:30–20:30", label: "晚餐 / Fisherman’s Wharf 夜间散步" }], note: "提前下载离线地图；酒店通常可在入住前寄存行李" },
-  { day: 2, date: "9月23日 · 周三", place: "金门与海岸", hotelId: "hotel-caza", events: [{ time: "08:00–09:15", label: "Golden Gate Bridge" }, { time: "09:30–10:30", label: "Palace of Fine Arts / Crissy Field" }, { time: "10:45–15:00", label: "Baker Beach / 午餐 / 回酒店休息" }], note: "下午保留弹性，照顾时差与脚部恢复" },
-  { day: 3, date: "9月24日 · 周四", place: "恶魔岛与渔人码头", hotelId: "hotel-caza", events: [{ time: "08:40–12:00", label: "Alcatraz Island（预约约 09:10 轮渡）" }, { time: "12:15–13:30", label: "Pier 39" }, { time: "13:45–14:30", label: "Ghirardelli Square" }, { time: "14:30–16:00", label: "Fisherman’s Wharf" }, { time: "16:15–17:15", label: "Lombard Street" }], note: "提前预订官方轮渡，并提前约 30 分钟抵达 Pier 33" },
-  { day: 4, date: "9月25日 · 周五", place: "Golden Gate Park 与 Mission", hotelId: "hotel-caza", events: [{ time: "09:00–09:30", label: "前往 Golden Gate Park" }, { time: "09:30–13:00", label: "California Academy of Sciences" }, { time: "13:00–14:30", label: "午餐 / Japanese Tea Garden" }, { time: "15:00–16:00", label: "Painted Ladies / Alamo Square" }, { time: "16:30–20:00", label: "Mission District / Dolores Park / 晚餐" }], note: "新增旧金山一天；跨区段优先使用网约车或 Muni" },
-  { day: 5, date: "9月26日 · 周六", place: "旧金山 → 优胜美地", hotelId: "yosemite-valley-lodge", events: [{ time: "08:00–09:30", label: "取车 / 加油 / 补给" }, { time: "09:30–16:30", label: "前往 Yosemite（含午餐与拥堵缓冲）" }, { time: "16:30–17:00", label: "酒店入住" }, { time: "17:05–17:45", label: "Cook’s Meadow Loop 短平路段" }, { time: "17:50–18:50", label: "Lower Yosemite Fall / 日落" }], note: "2026 无需车辆预约，但周六入口与山谷仍可能拥堵", drive: "约 5 小时 + 缓冲" },
-  { day: 6, date: "9月27日 · 周日", place: "优胜美地山谷", hotelId: "yosemite-valley-lodge", events: [{ time: "08:00–09:15", label: "El Capitan Meadow / Valley View" }, { time: "09:30–13:00", label: "Bouldering / 弹性休息" }, { time: "14:30–16:30", label: "Bridalveil Fall / Tunnel View" }], note: "停车后尽量使用山谷接驳车；脚部不适则缩短徒步" },
-  { day: 7, date: "9月28日 · 周一", place: "Glacier Point → 维塞利亚", hotelId: "visalia-marriott", events: [{ time: "07:15–10:45", label: "Glacier Point（含往返山路）" }, { time: "10:45–15:30", label: "前往 Visalia（含午餐 / 加油）" }, { time: "16:00–16:30", label: "酒店入住" }, { time: "17:30–19:30", label: "Downtown Visalia 晚餐 / 轻松散步" }], note: "出发前确认 Glacier Point Road 路况", drive: "约 4 小时 45 分" },
-  { day: 8, date: "9月29日 · 周二", place: "红杉国家公园", hotelId: "visalia-marriott", events: [{ time: "06:30–08:30", label: "前往 General Sherman 区域" }, { time: "08:30–10:00", label: "General Sherman Tree" }, { time: "10:15–13:00", label: "Congress Trail 短段 / Giant Forest / 午餐" }, { time: "13:00–16:30", label: "Giant Forest Museum / 沿途观景 / 返回 Visalia" }], note: "山路狭窄弯曲；Sherman 主步道返回段为上坡", drive: "约 4 小时往返" },
-  { day: 9, date: "9月30日 · 周三", place: "维塞利亚 → 圣莫尼卡", hotelId: "shore-hotel", events: [{ time: "08:30–13:00", label: "前往 Santa Monica（含休息与进城缓冲）" }, { time: "13:00–14:00", label: "午餐 / 寄存行李" }, { time: "14:00–16:00", label: "Santa Monica Pier / 海滩" }, { time: "16:00–20:00", label: "酒店入住 / 日落 / 晚餐" }], note: "新版取消 Death Valley，接近洛杉矶时用实时导航复核", drive: "约 4 小时 30 分" },
-  { day: 10, date: "10月1日 · 周四", place: "Camarillo 与 Malibu", hotelId: "shore-hotel", events: [{ time: "08:30–10:00", label: "前往 Camarillo Premium Outlets" }, { time: "10:00–13:30", label: "Camarillo Premium Outlets" }, { time: "13:30–17:00", label: "Malibu 海岸驾驶 / 精选海滩停靠" }, { time: "17:00–20:30", label: "返回 Santa Monica / 日落 / 晚餐" }], note: "新增洛杉矶一天；Malibu 只选一至两个停靠点", drive: "约 3 小时" },
-  { day: 11, date: "10月2日 · 周五", place: "Venice → LAX → Koreatown", hotelId: "line-la", events: [{ time: "08:30–11:30", label: "Venice Beach / Abbot Kinney" }, { time: "11:30–13:00", label: "午餐 / 酒店退房" }, { time: "13:00–15:30", label: "加油 / 前往 LAX / 还车" }, { time: "15:30–18:00", label: "Uber / Lyft 前往 Koreatown / 入住 / 晚餐" }], note: "周五高峰前还车；LAX 到 Koreatown 仍可能超过一小时" },
-  { day: 12, date: "10月3日 · 周六", place: "洛杉矶经典城市线", hotelId: "line-la", events: [{ time: "09:00–12:30", label: "Griffith Observatory（含交通 / 停车）" }, { time: "13:00–14:30", label: "Hollywood 区域" }, { time: "15:00–17:30", label: "Los Angeles County Museum of Art" }, { time: "18:30–20:00", label: "BCD Tofu House" }], note: "周六天文台 10:00 开放；LACMA 当前周六 10:00–19:00" },
-  { day: 13, date: "10月4日 · 周日", place: "攀岩与韩餐", hotelId: "line-la", events: [{ time: "10:00–14:00", label: "The Stronghold Climbing Gym" }, { time: "17:30–20:00", label: "Quarters Korean BBQ（建议早到）" }], note: "确认分店与周日时间；脚部无痛且状态适合时再攀爬" },
-  { day: 14, date: "10月5日 · 周一", place: "LAX 离境", hotelId: "line-la", events: [{ time: "待定", label: "酒店退房 / 寄存行李 / 机场接送" }, { time: "待定", label: "从 LAX 离境" }], note: "航班仍待定；酒店约提前 4.5 小时出发，争取提前 3 小时抵达 LAX" },
+  { day: 1, date: "9月21日 · 周一", place: "北京 → 旧金山", hotelId: "hotel-caza", events: [{ time: "17:25–14:05", label: "UA889 · Beijing → San Francisco（当地时间）" }, { time: "14:05–16:05", label: "SFO 入境 / 取行李 / 接送" }, { time: "16:45–17:15", label: "酒店入住 / 休息" }, { time: "18:00–20:00", label: "晚餐 / Fisherman’s Wharf at Night" }], note: "跨时区同日抵达；航班时刻以出票信息为准" },
+  { day: 2, date: "9月22日 · 周二", place: "Pier 39 → Lombard Street", hotelId: "hotel-caza", events: [{ time: "09:00–10:00", label: "Pier 39 Sea Lion Viewing Area" }, { time: "10:10–12:00", label: "Fisherman’s Wharf" }, { time: "12:00–13:00", label: "码头区午餐" }, { time: "13:15–14:00", label: "Lombard Street" }], note: "景点之间步行即可，不需要租自行车" },
+  { day: 3, date: "9月23日 · 周三", place: "Alcatraz Island", hotelId: "hotel-caza", events: [{ time: "08:30–09:00", label: "抵达 Pier 33 Alcatraz Landing" }, { time: "09:10–12:30", label: "Alcatraz Island / 往返轮渡" }, { time: "12:45–14:00", label: "Embarcadero 午餐 / 返回酒店" }], note: "只从官方运营方购票，并至少提前 30 分钟抵达 Pier 33" },
+  { day: 4, date: "9月24日 · 周四", place: "Napa Valley → Sacramento", hotelId: "hyatt-sacramento", events: [{ time: "07:45–08:30", label: "取车 / 加油 / 检查证件" }, { time: "08:30–09:58", label: "San Francisco → Napa Valley" }, { time: "10:00–11:30", label: "Domaine Carneros（预约品鉴）" }, { time: "11:50–13:05", label: "Oxbow Public Market / 午餐" }, { time: "13:05–14:15", label: "Napa Valley → Sacramento" }, { time: "14:15–16:00", label: "California State Capitol Park / 酒店入住" }], note: "驾驶者不饮酒；酒庄品鉴和用餐尽量提前预约", drive: "约 2 小时 37 分" },
+  { day: 5, date: "9月25日 · 周五", place: "Sacramento → Lake Tahoe", hotelId: "alder-inn", events: [{ time: "09:00–10:30", label: "Old Sacramento Waterfront" }, { time: "10:45–12:00", label: "Joe’s Crab Shack · Lunch" }, { time: "12:00–14:00", label: "Sacramento → Lake Tahoe" }, { time: "14:00–16:00", label: "湖边休息 / The Alder Inn check-in" }], note: "山路驾驶前加满油，下载离线地图", drive: "约 2 小时" },
+  { day: 6, date: "9月26日 · 周六", place: "Emerald Bay 与 South Lake Tahoe", hotelId: "alder-inn", events: [{ time: "08:00–09:00", label: "Gather Botanical Café · Breakfast" }, { time: "09:35–11:05", label: "Emerald Bay State Park" }, { time: "11:25–12:40", label: "Tallac Historic Site" }, { time: "13:00–14:30", label: "Pope Beach" }, { time: "14:50–16:05", label: "Thomas F. Regan Memorial City Beach" }], note: "先去热门停车点再一路向酒店方向返回；这一天驾车比租自行车更合适", drive: "约 1 小时 30 分" },
+  { day: 7, date: "9月27日 · 周日", place: "Sand Harbor → Nevada Beach", hotelId: "alder-inn", events: [{ time: "07:15–08:00", label: "前往 Sand Harbor" }, { time: "08:00–12:00", label: "Sand Harbor / 野餐" }, { time: "12:00–12:40", label: "Sand Harbor → Nevada Beach" }, { time: "12:40–15:40", label: "Nevada Beach" }], note: "Sand Harbor 上午车辆入园需预约；出发前先买好食物和水", drive: "约 1 小时 25 分" },
+  { day: 8, date: "9月28日 · 周一", place: "Lake Tahoe → Yosemite", hotelId: "yosemite-view-lodge", events: [{ time: "08:00–11:00", label: "South Lake Tahoe → Tioga Pass Entrance" }, { time: "11:00–11:20", label: "Tioga Pass / 路况确认" }, { time: "12:05–12:35", label: "Olmsted Point" }, { time: "12:35–14:50", label: "经 Yosemite Valley 前往 El Portal" }, { time: "14:50–16:00", label: "Yosemite View Lodge check-in / 休息" }], note: "2小时40分只接近东侧山口；到 Yosemite View Lodge 请按 5.5–6 小时，并确认 Tioga Road 开放", drive: "约 6 小时" },
+  { day: 9, date: "9月29日 · 周二", place: "Yosemite Valley Highlights", hotelId: "yosemite-view-lodge", events: [{ time: "07:30–08:00", label: "Yosemite View Lodge → Tunnel View" }, { time: "08:00–08:30", label: "Tunnel View" }, { time: "08:40–09:40", label: "Bridalveil Fall" }, { time: "09:50–10:15", label: "Valley View" }, { time: "10:20–10:55", label: "El Capitan Meadow" }, { time: "13:00–14:15", label: "Cook’s Meadow Loop" }, { time: "14:25–15:25", label: "Lower Yosemite Fall / Sentinel Bridge 备选" }], note: "9月底 Yosemite Falls 可能接近断流；当天优先看花岗岩地貌与草甸", drive: "约 1 小时 50 分（含返回酒店）" },
+  { day: 10, date: "9月30日 · 周三", place: "Glacier Point & High Country Views", hotelId: "yosemite-view-lodge", events: [{ time: "07:00–08:20", label: "Yosemite View Lodge → Washburn Point" }, { time: "08:20–08:45", label: "Washburn Point" }, { time: "08:55–09:55", label: "Glacier Point" }, { time: "10:15–12:15", label: "Sentinel Dome Trail" }, { time: "12:15–13:00", label: "野餐 / 休息" }, { time: "13:15–15:15", label: "Taft Point（体力允许时）" }, { time: "15:15–16:45", label: "返回 Yosemite View Lodge" }], note: "新增的一天以 Glacier Point 和 Sentinel Dome 为核心；Taft Point 是可删减项，遇到雷雨、大风或疲劳就提前返回", drive: "驾车约 3 小时 + 徒步约 4 小时" },
+  { day: 11, date: "10月1日 · 周四", place: "Yosemite → San Jose", hotelId: "hyatt-san-jose", events: [{ time: "08:00–09:00", label: "早餐 / 退房" }, { time: "09:00–13:30", label: "Yosemite View Lodge → San Jose（含休息）" }, { time: "13:30–15:00", label: "午餐 / 酒店寄存行李" }, { time: "15:00–16:00", label: "酒店入住" }, { time: "16:15–17:15", label: "Municipal Rose Garden" }, { time: "17:30–19:15", label: "Santana Row / 晚餐" }], note: "长途驾驶日只保留两个轻松市区停留；若晚到，直接取消玫瑰园", drive: "约 4 小时 + 市区短途" },
+  { day: 12, date: "10月2日 · 周五", place: "Great Mall → Winchester Mystery House", hotelId: "hyatt-san-jose", events: [{ time: "09:30–10:00", label: "San Jose → Great Mall" }, { time: "10:00–13:30", label: "Great Mall / Outlet Shopping" }, { time: "13:30–14:15", label: "前往 Winchester Mystery House / 简餐" }, { time: "14:15–16:15", label: "Winchester Mystery House" }, { time: "17:00–19:00", label: "San Pedro Square Market / 晚餐" }], note: "建议先预约 Winchester Mystery House 的下午场，再据此调整购物时长", drive: "约 1 小时 20 分" },
+  { day: 13, date: "10月3日 · 周六", place: "Lemos Farm", hotelId: "hyatt-san-jose", events: [{ time: "09:00–09:50", label: "San Jose → Half Moon Bay" }, { time: "10:00–12:30", label: "Lemos Farm" }, { time: "12:45–14:00", label: "Half Moon Bay 午餐" }, { time: "14:00–15:00", label: "返回 San Jose" }], note: "周六通常 10:00–17:00；秋季周末建议提前购票", drive: "约 1 小时 50 分往返" },
+  { day: 14, date: "10月4日 · 周日", place: "San Jose → SFO → 北京", hotelId: "hyatt-san-jose", events: [{ time: "06:30–07:30", label: "酒店退房 / 前往 SFO / 还车" }, { time: "07:30–10:35", label: "国际航班值机 / 安检 / 登机" }, { time: "10:35–15:25 +1", label: "UA888 · San Francisco → Beijing" }], note: "建议起飞前约 3 小时抵达 SFO；航班时刻以出票信息为准", drive: "约 1 小时 + 还车" },
 ];
 
 type RouteSelection = number | "all";
@@ -80,7 +79,7 @@ export default function Home() {
         if (disposed || !mapNodeRef.current) return;
 
         const map = leaflet.map(mapNodeRef.current, {
-          center: [36.1, -120.1],
+          center: [38.2, -120.8],
           zoom: 5,
           minZoom: 4,
           maxZoom: 13,
@@ -157,7 +156,7 @@ export default function Home() {
           }).addTo(map),
         ];
 
-        map.fitBounds([[33.45, -123.12], [38.35, -118.02]], { padding: [64, 64], animate: false });
+        map.fitBounds([[37.2, -123.05], [39.35, -119.05]], { padding: [64, 64], animate: false });
 
         allRoutePoints.forEach((point) => {
           const markerButton = document.createElement("button");
@@ -283,7 +282,7 @@ export default function Home() {
           <a href="#stays">住宿</a>
           <a href="#journal">每日行程</a>
         </nav>
-        <div className="header-date">SEP 21 — OCT 5</div>
+        <div className="header-date">SEP 21 — OCT 4</div>
       </header>
 
       <section className="hero" id="top">
@@ -297,20 +296,20 @@ export default function Home() {
             California,
             <span>Linna &amp; Wooju</span>
           </h1>
-          <p className="hero-deck">从仁川转机夜开始，十四天穿过太平洋的雾、花岗岩与古老巨木，沿南加州海岸抵达洛杉矶的城市灯光。</p>
+          <p className="hero-deck">十四天从旧金山海雾出发，穿过 Napa 的葡萄园、Lake Tahoe 的蓝与 Yosemite 的花岗岩，最后在硅谷收束这段北加州公路旅行。</p>
           <a className="route-cta" href="#route">
             展开路线 <span aria-hidden="true">↓</span>
           </a>
         </div>
         <div className="hero-facts" aria-label="旅行概览">
-          <div><b>15</b><span>CALENDAR DAYS</span></div>
+          <div><b>14</b><span>CALENDAR DAYS</span></div>
           <div><b>{allRoutePoints.length}</b><span>ROUTE STOPS</span></div>
           <div><b>{hotelStays.length}</b><span>HOTEL STAYS</span></div>
         </div>
         <div className="hero-stamp">
           <span>37.7749° N</span>
           <b>CALIFORNIA</b>
-          <span>34.0522° N</span>
+          <span>37.3382° N</span>
         </div>
       </section>
 
@@ -357,7 +356,7 @@ export default function Home() {
 
           <aside className="route-planner" aria-live="polite">
             <div className="planner-heading">
-              <p>{selectedDay ? `DAY ${String(selectedDay.day).padStart(2, "0")} · ${selectedDay.date}` : "ALL DAYS · SEP 22 — OCT 5"}</p>
+              <p>{selectedDay ? `DAY ${String(selectedDay.day).padStart(2, "0")} · ${selectedDay.date}` : "ALL DAYS · SEP 21 — OCT 4"}</p>
               <h3>{selectedDay?.title ?? "加州全程总览"}</h3>
               <div className="planner-metrics">
                 <div><span>预计交通</span><b>{formatMinutes(activeTravelMinutes)}</b></div>
@@ -419,22 +418,23 @@ export default function Home() {
 
         <div className="route-method">
           <p><b>路线逻辑</b> 同一片区按地理方向串联，步行街区集中处理，日落点放在每日最后；每天首段从当晚酒店或对应城市中心估算。地图连线表达顺序，不代替逐路口导航。</p>
-          <p><b>状态依据</b> 新版已经取消 Death Valley；国家公园路况仍会快速变化。出发前查看
-            <a href="https://www.nps.gov/yose/planyourvisit/index.htm" target="_blank" rel="noreferrer"> Yosemite 行前信息</a> 与
-            <a href="https://www.nps.gov/seki/planyourvisit/visitorcenters.htm" target="_blank" rel="noreferrer">Sequoia 游客中心</a>。
+          <p><b>状态依据</b> Lake Tahoe 经 Tioga Pass 进入 Yosemite 的山路会随天气变化。出发前查看
+            <a href="https://www.nps.gov/yose/planyourvisit/conditions.htm" target="_blank" rel="noreferrer"> Yosemite 当前路况</a> 与
+            <a href="https://parks.nv.gov/about/frequently-asked-questions/sand-harbor-reservations" target="_blank" rel="noreferrer">Sand Harbor 预约规则</a>。
           </p>
-          <p><b>时长参考</b> 恶魔岛按官方建议保留 2–3 小时；Griffith Observatory 按周六 10:00 开放安排上午到达。查看
-            <a href="https://home.nps.gov/alca/planyourvisit/things2do.htm" target="_blank" rel="noreferrer"> Alcatraz 建议</a> 与
-            <a href="https://griffithobservatory.org/?topic_id=17" target="_blank" rel="noreferrer">Griffith 开放信息</a>。
+          <p><b>时长参考</b> Alcatraz 按往返轮渡与岛上参观保留 3–3.5 小时；Great Mall 与 Lemos Farm 按当前常规营业时间排入。查看
+            <a href="https://www.cityexperiences.com/san-francisco/city-cruises/alcatraz/" target="_blank" rel="noreferrer"> Alcatraz 官方轮渡</a>、
+            <a href="https://www.simon.com/mall/great-mall/hours" target="_blank" rel="noreferrer">Great Mall</a> 与
+            <a href="https://www.lemosfarm.com/select-your-month-to-visit" target="_blank" rel="noreferrer">Lemos Farm</a>。
           </p>
         </div>
       </section>
 
       <section className="stays-section" id="stays">
         <div className="stays-intro">
-          <p className="eyebrow blue">SIX STAYS / ONE CONTINUOUS ROUTE</p>
-          <h2>从转机夜，到太平洋边</h2>
-          <p>住宿完全按新版日期同步：旧金山四晚、Yosemite 两晚、Visalia 两晚、Santa Monica 两晚，最后转到 Koreatown 连住三晚。</p>
+          <p className="eyebrow blue">FIVE STAYS / ONE CONTINUOUS ROUTE</p>
+          <h2>从海湾，到山谷</h2>
+          <p>住宿已按最新选择同步：San Francisco 三晚、Sacramento 一晚、The Alder Inn 三晚、Yosemite View Lodge 三晚，最后在 San Jose 连住三晚。未提供订单号的酒店以推荐方案显示。</p>
         </div>
         <div className="stays-list">
           {hotelStays.map((hotel, index) => (
@@ -452,8 +452,8 @@ export default function Home() {
 
       <section className="journal-section" id="journal">
         <div className="journal-intro">
-          <p className="eyebrow red">THE DAILY LOG / SEP 21 — OCT 5</p>
-          <h2>从 Day 0 开始，每小时都有去处</h2>
+          <p className="eyebrow red">THE DAILY LOG / SEP 21 — OCT 4</p>
+          <h2>从 Day 1 开始，每小时都有去处</h2>
           <p>新版表格里的航班、景点、入住时间和驾驶节点已经排进时间轴。点开 D1—D14，地图会同步移动到当天路线。</p>
         </div>
 
@@ -493,7 +493,7 @@ export default function Home() {
           <span>CALIFORNIA / 2026</span>
           <h2>See you where<br />the road bends.</h2>
         </div>
-        <p>路线依据《Trip planning_260801_SF_LA_extra_days.xlsx》整理，开放时间与住宿信息以表格 Sources 页及各机构官方页面为准。封面摄影来自 Unsplash：
+        <p>路线依据《Trip planning_changed_260817.xlsx》整理；住宿为推荐方案，开放时间、驾驶时长与航班以出发前官方信息和实时导航为准。封面摄影来自 Unsplash：
           <a href="https://unsplash.com/photos/a-view-of-a-valley-with-mountains-in-the-background-3_o3u8AeQw8" target="_blank" rel="noreferrer">Yosemite Valley</a>。
         </p>
       </footer>
