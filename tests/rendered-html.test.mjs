@@ -33,6 +33,9 @@ test("server-renders the revised California itinerary", async () => {
   assert.match(html, /Yosemite Cedar Lodge/);
   assert.match(html, /9\/28 — 10\/1/);
   assert.match(html, /10\/1 — 10\/4/);
+  assert.match(html, /TRAVEL EXPENSE SHEET/);
+  assert.match(html, /浏览器本地保存已开启|正在读取本机记录/);
+  assert.match(html, /href="#expenses"/);
   assert.doesNotMatch(html, /仁川|Visalia|Sequoia|Santa Monica|Los Angeles/);
   assert.doesNotMatch(html, /FRAME BY FRAME|目的地影像|出发前，记住这四件事|href="#notes"/);
 });

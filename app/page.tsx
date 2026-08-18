@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Map as LeafletMap, Polyline } from "leaflet";
+import ExpenseSheet from "./expense-sheet";
 import { allRoutePoints, formatMinutes, hotelStays, optimizedDays, routePointTimes, type RoutePoint } from "./route-data";
 
 type DayPlan = {
@@ -280,6 +281,7 @@ export default function Home() {
         <nav aria-label="页面导航">
           <a href="#route">路线</a>
           <a href="#stays">住宿</a>
+          <a href="#expenses">消费</a>
           <a href="#journal">每日行程</a>
         </nav>
         <div className="header-date">SEP 21 — OCT 4</div>
@@ -449,6 +451,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <ExpenseSheet />
 
       <section className="journal-section" id="journal">
         <div className="journal-intro">
