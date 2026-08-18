@@ -29,6 +29,7 @@ test("server-renders the revised California itinerary", async () => {
   assert.match(html, /Great Mall → Winchester Mystery House/);
   assert.match(html, /<h4>San Francisco International Airport<small>DAY /);
   assert.match(html, /9\/21 — 9\/24/);
+  assert.match(html, /Holiday Inn Sacramento Downtown – Arena/);
   assert.match(html, /9\/28 — 10\/1/);
   assert.match(html, /10\/1 — 10\/4/);
   assert.doesNotMatch(html, /仁川|Visalia|Sequoia|Santa Monica|Los Angeles/);
@@ -42,6 +43,7 @@ test("keeps every map stop ordered and timed", async () => {
   assert.equal(allRoutePoints.length, 41);
   assert.equal(hotelStays.length, 5);
   assert.equal(hotelStays.find((hotel) => hotel.id === "hotel-caza")?.nights, 3);
+  assert.equal(hotelStays.find((hotel) => hotel.id === "holiday-inn-sacramento")?.nights, 1);
   assert.equal(hotelStays.find((hotel) => hotel.id === "alder-inn")?.nights, 3);
   assert.equal(hotelStays.find((hotel) => hotel.id === "yosemite-view-lodge")?.nights, 3);
   assert.equal(hotelStays.find((hotel) => hotel.id === "hyatt-san-jose")?.nights, 3);

@@ -41,7 +41,7 @@ export type HotelStay = {
 
 export const hotelStays: HotelStay[] = [
   { id: "hotel-caza", name: "Hotel Caza Fisherman’s Wharf", cn: "Hotel Caza 渔人码头", dates: "9/21 — 9/24", nights: 3, address: "1300 Columbus Ave, San Francisco", checkIn: "16:00", checkOut: "12:00", dayFrom: 1, dayTo: 3, coordinates: [-122.4189, 37.8068], website: "https://www.hotelcaza.com/", note: "建议住宿；步行可达 Fisherman’s Wharf、Pier 39 与 Pier 33，适合前三天不租车的安排。" },
-  { id: "hyatt-sacramento", name: "Hyatt Regency Sacramento", cn: "Hyatt Regency Sacramento", dates: "9/24 — 9/25", nights: 1, address: "1209 L Street, Sacramento", checkIn: "16:00", checkOut: "11:00", dayFrom: 4, dayTo: 4, coordinates: [-121.4908, 38.5788], website: "https://www.hyatt.com/hyatt-regency/en-US/sacra-hyatt-regency-sacramento", note: "建议住宿；位于州议会大厦对面，步行约 10–15 分钟可到 Old Sacramento Waterfront。" },
+  { id: "holiday-inn-sacramento", name: "Holiday Inn Sacramento Downtown – Arena by IHG", cn: "Holiday Inn Sacramento Downtown – Arena", dates: "9/24 — 9/25", nights: 1, address: "300 J Street, Sacramento", checkIn: "15:00", checkOut: "11:00", dayFrom: 4, dayTo: 4, coordinates: [-121.5024, 38.5819], website: "https://www.trip.com/hotels/sacramento-hotel-detail-2216965/holiday-inn-sacramento-downtown-arena-by-ihg/", note: "已选酒店；距 Old Sacramento Waterfront 约 200 米，第二天可直接步行出发。酒店提供收费私人停车，当前页面标示约 US$20/天。" },
   { id: "alder-inn", name: "The Alder Inn", cn: "The Alder Inn", dates: "9/25 — 9/28", nights: 3, address: "1072 Ski Run Blvd, South Lake Tahoe", checkIn: "16:00", checkOut: "10:00", dayFrom: 5, dayTo: 7, coordinates: [-119.9562, 38.9464], website: "https://www.thealderinn.com/", note: "已选酒店；免费停车，位置适合作为 Emerald Bay、South Lake Tahoe 与 Nevada 一侧的三晚基地。Deluxe Queen Room 是否配独立空调建议以订单房型设施为准。" },
   { id: "yosemite-view-lodge", name: "Yosemite View Lodge", cn: "Yosemite View Lodge", dates: "9/28 — 10/1", nights: 3, address: "11136 CA-140, El Portal", checkIn: "15:00", checkOut: "11:00", dayFrom: 8, dayTo: 10, coordinates: [-119.7649, 37.6782], website: "https://www.trip.com/hotels/el-portal-hotel-detail-2194994/yosemite-view-lodge/", note: "已选酒店；位于 CA-140、靠近 Arch Rock Entrance，连续住三晚可减少搬运行李。进入 Yosemite Valley 通常仍需约 20–30 分钟车程。" },
   { id: "hyatt-san-jose", name: "Hyatt Place San Jose / Downtown", cn: "Hyatt Place San Jose / Downtown", dates: "10/1 — 10/4", nights: 3, address: "282 Almaden Boulevard, San Jose", checkIn: "15:00", checkOut: "12:00", dayFrom: 11, dayTo: 14, coordinates: [-121.8905, 37.3292], website: "https://www.hyatt.com/hyatt-place/en-US/sjczj-hyatt-place-san-jose-downtown", note: "建议住宿；连住三晚，前往 Downtown、Great Mall、Half Moon Bay 与 SFO 都较顺路。" },
@@ -83,11 +83,11 @@ export const optimizedDays: OptimizedDay[] = [
     day: 4,
     date: "9月24日 · 周四",
     title: "Napa Valley → Sacramento",
-    hotelId: "hyatt-sacramento",
+    hotelId: "holiday-inn-sacramento",
     points: [
       { id: "d4-domaine", day: 4, order: 1, cn: "纳帕酒庄品鉴", name: "Domaine Carneros", coordinates: [-122.3568, 38.255], travelMode: "驾车", travelMinutes: 88, travelLabel: "旧金山取车后出发", visitMinutes: 90, note: "作为 Napa Valley wine cellar 的推荐落点；品鉴通常需要提前预约，驾驶者请勿饮酒。" },
       { id: "d4-oxbow", day: 4, order: 2, cn: "纳帕午餐", name: "Oxbow Public Market", coordinates: [-122.2818, 38.302], travelMode: "驾车", travelMinutes: 18, visitMinutes: 75, note: "顺路解决午餐和咖啡，再向 Sacramento 出发。" },
-      { id: "d4-capitol", day: 4, order: 3, cn: "加州州议会大厦公园", name: "California State Capitol Park", coordinates: [-121.4934, 38.5766], travelMode: "驾车", travelMinutes: 69, travelLabel: "Napa → Sacramento", visitMinutes: 45, note: "酒店就在公园对面；若到达较晚，可直接办理入住并把散步取消。" },
+      { id: "d4-capitol", day: 4, order: 3, cn: "加州州议会大厦公园", name: "California State Capitol Park", coordinates: [-121.4934, 38.5766], travelMode: "驾车", travelMinutes: 69, travelLabel: "Napa → Sacramento", visitMinutes: 45, note: "参观后再驾车约 5–10 分钟到 300 J Street 办理入住；若到达较晚，可直接去酒店。" },
     ],
   },
   {
@@ -96,7 +96,7 @@ export const optimizedDays: OptimizedDay[] = [
     title: "Sacramento → Lake Tahoe",
     hotelId: "alder-inn",
     points: [
-      { id: "d5-old-sac", day: 5, order: 1, cn: "老萨克拉门托滨水区", name: "Old Sacramento Waterfront", coordinates: [-121.5053, 38.5845], travelMode: "驾车 / 步行", travelMinutes: 10, travelLabel: "从酒店出发", visitMinutes: 90 },
+      { id: "d5-old-sac", day: 5, order: 1, cn: "老萨克拉门托滨水区", name: "Old Sacramento Waterfront", coordinates: [-121.5053, 38.5845], travelMode: "步行", travelMinutes: 5, travelLabel: "从酒店出发", visitMinutes: 90, note: "酒店距离 Old Sacramento 约 200 米，不必开车；退房后可先把行李留在车内或寄存前台。" },
       { id: "d5-joes", day: 5, order: 2, cn: "Joe’s Crab Shack 午餐", name: "Joe’s Crab Shack · Old Sacramento", coordinates: [-121.5064, 38.5832], travelMode: "步行", travelMinutes: 5, visitMinutes: 75 },
       { id: "d5-tahoe", day: 5, order: 3, cn: "南太浩湖与酒店入住", name: "The Alder Inn / Hotel Check-in", coordinates: [-119.9562, 38.9464], travelMode: "驾车", travelMinutes: 120, travelLabel: "Sacramento → Lake Tahoe", visitMinutes: 90, note: "山路天气变化快；抵达后只安排入住和湖边短散步。" },
     ],
