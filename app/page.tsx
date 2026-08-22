@@ -19,17 +19,17 @@ const days: DayPlan[] = [
   { day: 1, date: "9月21日 · 周一", place: "Beijing → San Francisco", hotelId: "comfort-inn-bay", events: [{ time: "17:25–14:05", label: "UA889 · Beijing → San Francisco（当地时间）" }, { time: "14:05–16:05", label: "SFO 入境 / 取行李 / 接送" }, { time: "16:45–17:15", label: "Comfort Inn by the Bay check-in / 休息" }, { time: "18:00–20:00", label: "晚餐 / Fisherman’s Wharf at Night" }], note: "跨时区同日抵达；航班时刻以出票信息为准" },
   { day: 2, date: "9月22日 · 周二", place: "Pier 39 → Lombard Street", hotelId: "comfort-inn-bay", events: [{ time: "09:00–10:00", label: "Pier 39 Sea Lion Viewing Area" }, { time: "10:10–12:00", label: "Fisherman’s Wharf" }, { time: "12:00–13:00", label: "码头区午餐" }, { time: "13:15–14:00", label: "Lombard Street" }], note: "这一天景点集中在酒店附近，步行即可" },
   { day: 3, date: "9月23日 · 周三", place: "Alcatraz Island", hotelId: "comfort-inn-bay", events: [{ time: "08:30–09:00", label: "Pier 33 Alcatraz Landing" }, { time: "09:10–12:30", label: "Alcatraz Island / 往返轮渡" }, { time: "12:45–14:00", label: "Embarcadero 午餐 / 返回酒店" }], note: "提前 30 分钟到 Pier 33；随身带水和简餐" },
-  { day: 4, date: "9月24日 · 周四", place: "San Francisco → Mariposa / Yosemite", hotelId: "yosemite-way-station", events: [{ time: "07:35–08:45", label: "SFO Rental Car Center / 取车" }, { time: "08:45–10:30", label: "SFO → Trader Joe’s · Modesto" }, { time: "10:30–11:00", label: "水和野餐补给" }, { time: "11:00–13:25", label: "Modesto → Nelder Grove Interpretive Area" }, { time: "13:25–14:40", label: "Nelder Grove（道路开放时）" }, { time: "14:40–15:55", label: "Nelder Grove → Mariposa" }, { time: "15:55–17:00", label: "Best Western Plus Yosemite Way Station Motel check-in" }], note: "Nelder Grove 是明显绕行项；出发前向 Sierra National Forest 确认 2026 年道路状态，关闭或晚出发就直接去酒店", drive: "约 5 小时 50 分 + 取车 / 补给" },
-  { day: 5, date: "9月25日 · 周五", place: "Yosemite Valley Highlights", hotelId: "yosemite-way-station", events: [{ time: "07:00–08:05", label: "Mariposa → Tunnel View" }, { time: "08:05–08:35", label: "Tunnel View" }, { time: "08:45–09:45", label: "Bridalveil Fall" }, { time: "09:55–10:30", label: "El Capitan Meadow" }, { time: "10:45–11:15", label: "Sentinel Bridge" }, { time: "11:30–12:30", label: "Lower Yosemite Fall" }, { time: "13:00–14:15", label: "Cook’s Meadow Loop" }], note: "全天带水和简餐；9月底 Yosemite Falls 可能水量很低", drive: "园内约 2 小时 + 返回 Mariposa" },
-  { day: 6, date: "9月26日 · 周六", place: "Glacier Point & High Country Views", hotelId: "yosemite-way-station", events: [{ time: "06:40–08:30", label: "Mariposa → Washburn Point" }, { time: "08:30–08:55", label: "Washburn Point" }, { time: "09:05–10:05", label: "Glacier Point" }, { time: "10:25–12:25", label: "Sentinel Dome Trail" }, { time: "12:25–13:15", label: "野餐 / 休息" }, { time: "13:15–15:15", label: "Taft Point（体力允许时）" }, { time: "15:15–17:15", label: "返回 Mariposa" }], note: "第二个 Yosemite 日以 Glacier Point 和 Sentinel Dome 为核心；Taft Point 可删减", drive: "驾车约 4 小时 + 徒步约 4 小时" },
-  { day: 7, date: "9月27日 · 周日", place: "Yosemite → Lake Tahoe", hotelId: "alder-inn", events: [{ time: "08:30–13:00", label: "Mariposa → South Lake Tahoe（含休息缓冲）" }, { time: "13:00–14:00", label: "午餐 / The Alder Inn 寄存行李" }, { time: "14:20–15:35", label: "Thomas F. Regan Memorial City Beach" }, { time: "16:00–16:30", label: "The Alder Inn check-in" }], note: "表格估算净驾驶 3 小时 59 分，实际应为山路和一次休息留缓冲", drive: "约 4 小时 + 休息" },
-  { day: 8, date: "9月28日 · 周一", place: "Emerald Bay & West Shore", hotelId: "alder-inn", events: [{ time: "08:00–09:00", label: "Gather Botanical Café · Breakfast" }, { time: "09:35–11:05", label: "Emerald Bay State Park" }, { time: "11:25–12:40", label: "Tallac Historic Site" }, { time: "13:00–14:30", label: "Pope Beach" }], note: "先到热门停车点，再向 South Lake Tahoe 方向返回；提前买好湖边食物", drive: "约 1 小时 10 分" },
+  { day: 4, date: "9月24日 · 周四", place: "San Francisco → Mariposa / Yosemite", hotelId: "yosemite-way-station", events: [{ time: "07:35–08:45", label: "SFO Rental Car Center / 取车" }, { time: "08:45–10:30", label: "SFO → Trader Joe’s · Modesto" }, { time: "10:30–11:00", label: "水和野餐补给" }, { time: "11:00–12:45", label: "Modesto → Mariposa" }, { time: "12:45–15:45", label: "Downtown Mariposa 午餐 / 散步 / 休息" }, { time: "16:00–17:00", label: "Best Western Plus Yosemite Way Station Motel check-in" }], note: "已取消南侧红杉林绕行；抵达日留作补给和恢复体力", drive: "约 4 小时 + 取车 / 补给" },
+  { day: 5, date: "9月25日 · 周五", place: "Yosemite Valley Highlights", hotelId: "yosemite-way-station", events: [{ time: "07:00–08:05", label: "Mariposa → Tunnel View" }, { time: "08:05–08:35", label: "Tunnel View" }, { time: "08:45–09:30", label: "Bridalveil Fall" }, { time: "09:40–10:15", label: "El Capitan Meadow" }, { time: "10:15–10:45", label: "进入东谷并停车一次" }, { time: "10:45–11:15", label: "Sentinel Bridge" }, { time: "11:30–12:00", label: "Lower Yosemite Fall（有水时备选）" }, { time: "12:15–13:15", label: "Cook’s Meadow Loop" }, { time: "13:15–14:00", label: "野餐 / 休息" }, { time: "14:00–15:10", label: "返回 Mariposa" }], note: "进入东谷后不再挪车，改用步行和免费接驳车；Lower Yosemite Fall 无水时直接跳过", drive: "往返约 2 小时 15 分 + 园内约 55 分钟" },
+  { day: 6, date: "9月26日 · 周六", place: "Glacier Point & High Country Views", hotelId: "yosemite-way-station", events: [{ time: "06:40–08:30", label: "Mariposa → Washburn Point" }, { time: "08:30–08:55", label: "Washburn Point" }, { time: "09:05–10:05", label: "Glacier Point" }, { time: "10:25–12:25", label: "Sentinel Dome 或 Taft Point（二选一）" }, { time: "12:25–13:15", label: "野餐 / 休息" }, { time: "13:15–15:15", label: "返回 Mariposa / 沿途弹性停留" }], note: "默认选择 Sentinel Dome；Taft Point 是同一登山口的备选路线，不叠加游览", drive: "驾车约 4 小时 + 徒步约 2 小时" },
+  { day: 7, date: "9月27日 · 周日", place: "Yosemite → Lake Tahoe", hotelId: "alder-inn", events: [{ time: "08:00–13:30", label: "Mariposa → South Lake Tahoe（含加油、午餐与休息）" }, { time: "13:30–14:30", label: "The Alder Inn 寄存行李 / 休息" }, { time: "14:30–15:30", label: "Thomas F. Regan Memorial City Beach（状态良好时备选）" }, { time: "16:00–16:30", label: "The Alder Inn check-in" }], note: "按 5–5.5 小时门到门规划；抵达较晚或疲劳时直接取消海滩", drive: "约 5 小时 + 30 分钟弹性" },
+  { day: 8, date: "9月28日 · 周一", place: "Emerald Bay & West Shore", hotelId: "alder-inn", events: [{ time: "07:15–08:00", label: "Gather Botanical Café · Breakfast（营业时）" }, { time: "08:35–10:05", label: "Emerald Bay State Park" }, { time: "10:25–11:40", label: "Tallac Historic Site" }, { time: "11:50–13:20", label: "Pope Beach" }], note: "前一晚确认早餐店营业时间；目标 08:30 左右抵达 Emerald Bay，再向 South Lake Tahoe 方向返回", drive: "约 1 小时 10 分" },
   { day: 9, date: "9月29日 · 周二", place: "Sand Harbor → Nevada Beach", hotelId: "alder-inn", events: [{ time: "07:15–08:00", label: "前往 Sand Harbor" }, { time: "08:00–12:00", label: "Sand Harbor / 野餐" }, { time: "12:00–12:40", label: "Sand Harbor → Nevada Beach" }, { time: "12:40–15:40", label: "Nevada Beach" }], note: "Sand Harbor 上午车辆入园需预约；出发前先买好食物和水", drive: "约 1 小时 25 分" },
   { day: 10, date: "9月30日 · 周三", place: "Lake Tahoe → Old Sacramento → Davis", hotelId: "palm-court-davis", events: [{ time: "07:45–10:00", label: "South Lake Tahoe → Old Sacramento" }, { time: "10:15–11:45", label: "Old Sacramento Waterfront" }, { time: "11:50–13:05", label: "Joe’s Crab Shack · Lunch" }, { time: "13:20–14:00", label: "Beers Books" }, { time: "14:00–14:30", label: "Sacramento → Davis" }, { time: "15:00–15:30", label: "Best Western Plus Palm Court Hotel check-in" }, { time: "16:00–17:15", label: "UC Davis Arboretum and Public Garden" }], note: "酒店实际在 Downtown Davis；早餐为付费项目，不要按免费早餐预期", drive: "约 2 小时 45 分" },
-  { day: 11, date: "10月1日 · 周四", place: "Davis → Napa Valley → Sunnyvale", hotelId: "best-western-silicon-valley", events: [{ time: "08:30–09:45", label: "Davis → Castello di Amorosa" }, { time: "10:00–11:30", label: "Castello di Amorosa（预约）" }, { time: "11:30–12:10", label: "Calistoga → Oxbow Public Market" }, { time: "12:10–13:25", label: "Napa 午餐" }, { time: "13:25–15:25", label: "Napa → Sunnyvale" }, { time: "15:25–16:25", label: "Best Western Silicon Valley Inn check-in" }], note: "驾驶者不饮酒；长途驾驶后晚间留空", drive: "约 4 小时" },
+  { day: 11, date: "10月1日 · 周四", place: "Davis → Napa Valley → Sunnyvale", hotelId: "best-western-silicon-valley", events: [{ time: "08:30–09:45", label: "Davis → Castello di Amorosa" }, { time: "10:00–11:30", label: "Castello di Amorosa（预约）" }, { time: "11:30–12:10", label: "Calistoga → Oxbow Public Market" }, { time: "12:10–13:25", label: "Napa 午餐" }, { time: "13:25–16:00", label: "Napa → Sunnyvale（含车流缓冲）" }, { time: "16:00–17:00", label: "Best Western Silicon Valley Inn check-in" }], note: "驾驶者不饮酒；Napa 到 Sunnyvale 按 2 小时 35 分规划，长途驾驶后晚间留空", drive: "约 4 小时 30 分" },
   { day: 12, date: "10月2日 · 周五", place: "Great Mall", hotelId: "best-western-silicon-valley", events: [{ time: "09:40–10:00", label: "Sunnyvale → Great Mall" }, { time: "10:00–14:00", label: "Great Mall / Outlet Shopping" }, { time: "14:00–晚间", label: "自由活动 / 休息" }], note: "按最终表格保留 Great Mall，不再加入 Clockwise 版本的额外 San Jose 景点", drive: "约 40 分钟往返" },
-  { day: 13, date: "10月3日 · 周六", place: "Half Moon Bay & Pumpkin Farms", hotelId: "best-western-silicon-valley", events: [{ time: "09:00–09:50", label: "Sunnyvale → Half Moon Bay" }, { time: "10:00–12:00", label: "Lemos Farm" }, { time: "12:10–13:10", label: "Pastorino Farms（二选一）" }, { time: "13:20–15:20", label: "Half Moon Bay State Beach / Coastside views" }, { time: "15:20–16:20", label: "返回 Sunnyvale" }], note: "两家 pumpkin farm 选一家即可；秋季周末建议提前购票", drive: "约 2 小时往返" },
-  { day: 14, date: "10月4日 · 周日", place: "Sunnyvale → SFO → Beijing", hotelId: "best-western-silicon-valley", events: [{ time: "06:30–07:30", label: "酒店退房 / 前往 SFO / 还车" }, { time: "07:30–10:35", label: "国际航班值机 / 安检 / 登机" }, { time: "10:35–15:25 +1", label: "UA888 · San Francisco → Beijing" }], note: "表格预计酒店到 SFO 约 41 分钟；仍建议起飞前约 3 小时抵达机场", drive: "约 41 分钟 + 还车" },
+  { day: 13, date: "10月3日 · 周六", place: "Half Moon Bay & Pumpkin Farms", hotelId: "best-western-silicon-valley", events: [{ time: "08:40–09:40", label: "Sunnyvale → Half Moon Bay（周末车流缓冲）" }, { time: "10:00–12:00", label: "Lemos Farm 或 Pastorino Farms（二选一）" }, { time: "12:20–14:20", label: "Half Moon Bay State Beach / Coastside views" }, { time: "14:20–15:30", label: "返回 Sunnyvale" }], note: "两家 pumpkin farm 只选一家；秋季周末建议提前购票并预留海岸交通时间", drive: "约 2 小时 10 分往返" },
+  { day: 14, date: "10月4日 · 周日", place: "Sunnyvale → SFO → Beijing", hotelId: "best-western-silicon-valley", events: [{ time: "06:00–07:15", label: "酒店退房 / 加油 / 前往 SFO / 还车 / AirTrain" }, { time: "07:15–10:35", label: "国际航班值机 / 安检 / 登机" }, { time: "10:35–15:25 +1", label: "UA888 · San Francisco → Beijing" }], note: "提前到 06:00 离店，为还车和航站楼转乘留出完整缓冲", drive: "约 1 小时 15 分至航站楼" },
 ];
 
 type RouteSelection = number | "all";
@@ -46,6 +46,7 @@ function routeLatLngs(points: RoutePoint[]) {
 function formatTravel(point: RoutePoint) {
   if (point.status === "closed") return "当前关闭，跳过";
   const duration = formatMinutes(point.travelMinutes);
+  if (point.travelMinutes <= 0 && point.travelLabel) return point.travelLabel;
   return point.travelLabel ? `${point.travelLabel} · ${duration}` : duration;
 }
 
@@ -68,8 +69,14 @@ export default function Home() {
   const selectedPoint = allRoutePoints.find((point) => point.id === selectedPointId) ?? activePoints[0];
   const selectedPointDay = optimizedDays.find((day) => day.day === selectedPoint.day);
   const activeHotel = hotelStays.find((hotel) => hotel.id === (selectedDay?.hotelId ?? selectedPointDay?.hotelId));
-  const activeTravelMinutes = activePoints.reduce((total, point) => total + (point.status === "closed" ? 0 : point.travelMinutes), 0);
-  const activeVisitMinutes = activePoints.reduce((total, point) => total + (point.status === "closed" ? 0 : point.visitMinutes), 0);
+  const dayTravelMinutes = (day: (typeof optimizedDays)[number]) => day.points.reduce(
+    (total, point) => total + (point.status === "closed" || point.optional ? 0 : point.travelMinutes),
+    day.returnTravelMinutes ?? 0,
+  );
+  const activeTravelMinutes = selectedDay
+    ? dayTravelMinutes(selectedDay)
+    : optimizedDays.reduce((total, day) => total + dayTravelMinutes(day), 0);
+  const activeVisitMinutes = activePoints.reduce((total, point) => total + (point.status === "closed" || point.optional ? 0 : point.visitMinutes), 0);
 
   useEffect(() => {
     let disposed = false;
@@ -162,7 +169,7 @@ export default function Home() {
         allRoutePoints.forEach((point) => {
           const markerButton = document.createElement("button");
           markerButton.type = "button";
-          markerButton.className = `atlas-marker ${point.status === "closed" ? "is-closed" : ""}`;
+          markerButton.className = `atlas-marker ${point.status === "closed" ? "is-closed" : ""} ${point.optional ? "is-optional" : ""}`;
           markerButton.dataset.pointId = point.id;
           markerButton.dataset.day = String(point.day);
           markerButton.setAttribute("aria-label", `Day ${point.day}, stop ${point.order}, ${point.name}`);
@@ -325,7 +332,7 @@ export default function Home() {
             {mapError && <div className="map-error" role="status"><b>地图暂时无法加载</b><span>全部路线、时间与地点仍可在右侧查看。</span></div>}
             {baseMapUnavailable && <div className="map-network-note" role="status">底图网络受限，路线与地点标记仍可正常使用</div>}
             <div className="map-index">PACIFIC<br />OCEAN</div>
-            <div className="map-legend"><i className="legend-open" /> 景点 / 交通节点 <i className="legend-hotel" /> 酒店</div>
+            <div className="map-legend"><i className="legend-open" /> 必选 <i className="legend-optional" /> 备选 <i className="legend-hotel" /> 酒店</div>
           </div>
 
           <aside className="route-planner" aria-live="polite">
@@ -341,12 +348,12 @@ export default function Home() {
             <div className="selected-point">
               <div className="selected-point-index">{selectedPoint.day}·{selectedPoint.order}</div>
               <div>
-                <p>SELECTED STOP</p>
-                <h4>{selectedPoint.name}<small>DAY {String(selectedPoint.day).padStart(2, "0")} · STOP {String(selectedPoint.order).padStart(2, "0")}</small></h4>
+                <p>{selectedPoint.optional ? "OPTIONAL STOP" : "SELECTED STOP"}</p>
+                <h4>{selectedPoint.name}<small>DAY {String(selectedPoint.day).padStart(2, "0")} · {selectedPoint.optional ? "备选" : `STOP ${String(selectedPoint.order).padStart(2, "0")}`}</small></h4>
                 <div className="selected-point-times">
                   <span>计划 · {routePointTimes[selectedPoint.id]}</span>
                   <span>{selectedPoint.travelMode} · {formatTravel(selectedPoint)}</span>
-                  <span>建议停留 · {formatMinutes(selectedPoint.visitMinutes)}</span>
+                  <span>{selectedPoint.optional ? "备选停留" : "建议停留"} · {formatMinutes(selectedPoint.visitMinutes)}</span>
                 </div>
                 {selectedPoint.note && <p className="point-note">{selectedPoint.note}</p>}
               </div>
@@ -363,12 +370,12 @@ export default function Home() {
             {selectedDay ? (
               <ol className="route-sequence" aria-label={`第 ${selectedDay.day} 天推荐顺序`}>
                 {selectedDay.points.map((point) => (
-                  <li key={point.id} className={`${point.id === selectedPointId ? "is-active" : ""} ${point.status === "closed" ? "is-closed" : ""}`}>
+                  <li key={point.id} className={`${point.id === selectedPointId ? "is-active" : ""} ${point.status === "closed" ? "is-closed" : ""} ${point.optional ? "is-optional" : ""}`}>
                     <button type="button" onClick={() => setSelectedPointId(point.id)}>
                       <span className="sequence-number">{String(point.order).padStart(2, "0")}</span>
-                      <span className="sequence-place"><em>{routePointTimes[point.id]}</em><b>{point.name}</b><small>DAY {String(point.day).padStart(2, "0")} · STOP {String(point.order).padStart(2, "0")}</small></span>
+                      <span className="sequence-place"><em>{routePointTimes[point.id]}</em><b>{point.name}</b><small>DAY {String(point.day).padStart(2, "0")} · {point.optional ? "备选" : `STOP ${String(point.order).padStart(2, "0")}`}</small></span>
                       <span className="sequence-time"><b>{point.travelMode}</b><small>{formatTravel(point)}</small></span>
-                      <span className="sequence-visit"><b>观光</b><small>{formatMinutes(point.visitMinutes)}</small></span>
+                      <span className="sequence-visit"><b>{point.optional ? "备选" : "观光"}</b><small>{formatMinutes(point.visitMinutes)}</small></span>
                     </button>
                   </li>
                 ))}
@@ -386,20 +393,20 @@ export default function Home() {
               </div>
             )}
 
-            <p className="planner-disclaimer">时间为非实时规划估算，不含停车、排队、用餐和临时封路；出发当天请用导航复核。</p>
+            <p className="planner-disclaimer">每日交通合计包含返回当晚酒店的预计时间；不含停车、排队、用餐和临时封路，出发当天请用导航复核。</p>
           </aside>
         </div>
 
         <div className="route-method">
-          <p><b>路线逻辑</b> 同一片区按地理方向串联，步行街区集中处理，日落点放在每日最后；每天首段从当晚酒店或对应城市中心估算。地图连线表达顺序，不代替逐路口导航。</p>
-          <p><b>状态依据</b> Nelder Grove 是 9 月 24 日最大的绕行项，2025 年曾因安全原因关闭；2026 年是否开放需临行复核。出发前查看
-            <a href="https://www.fs.usda.gov/r05/sierra/alerts" target="_blank" rel="noreferrer"> Sierra National Forest Alerts</a>、
+          <p><b>路线逻辑</b> 同一片区按地理方向串联，Yosemite Valley 进入东谷后停车一次，步行或乘接驳车游览。黄色虚线标记是可跳过或二选一的备选点，不计入每日总时长。地图连线表达顺序，不代替逐路口导航。</p>
+          <p><b>状态依据</b> Yosemite 2026 年不要求车辆入园预约，但山火、烟雾和临时道路状况仍需在出发前复核。查看
+            <a href="https://www.nps.gov/yose/planyourvisit/permitsandreservations.htm" target="_blank" rel="noreferrer"> Yosemite 2026 预约规则</a>、
             <a href="https://www.nps.gov/yose/planyourvisit/conditions.htm" target="_blank" rel="noreferrer">Yosemite 当前路况</a> 与
             <a href="https://parks.nv.gov/about/frequently-asked-questions/sand-harbor-reservations" target="_blank" rel="noreferrer">Sand Harbor 预约规则</a>。
           </p>
-          <p><b>时长参考</b> Alcatraz 按往返轮渡与岛上参观保留 3–3.5 小时；Great Mall 与 Lemos Farm 按当前常规营业时间排入。查看
+          <p><b>时长参考</b> Alcatraz 按往返轮渡与岛上参观保留 3–3.5 小时；Castello di Amorosa、Sand Harbor 与秋季农场均需提前确认预约。查看
             <a href="https://www.cityexperiences.com/san-francisco/city-cruises/alcatraz/" target="_blank" rel="noreferrer"> Alcatraz 官方轮渡</a>、
-            <a href="https://www.simon.com/mall/great-mall/hours" target="_blank" rel="noreferrer">Great Mall</a> 与
+            <a href="https://castellodiamorosa.com/" target="_blank" rel="noreferrer">Castello di Amorosa</a> 与
             <a href="https://www.lemosfarm.com/select-your-month-to-visit" target="_blank" rel="noreferrer">Lemos Farm</a>。
           </p>
         </div>

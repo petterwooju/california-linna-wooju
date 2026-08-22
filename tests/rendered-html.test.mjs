@@ -21,7 +21,7 @@ test("server-renders the revised California itinerary", async () => {
 
   const html = await response.text();
   assert.match(html, /California, Linna &amp; Wooju/);
-  assert.match(html, /全部 <!-- -->42<!-- --> 站/);
+  assert.match(html, /全部 <!-- -->41<!-- --> 站/);
   assert.match(html, /FIVE STAYS \/ ONE CONTINUOUS ROUTE/);
   assert.match(html, /San Francisco → Mariposa \/ Yosemite/);
   assert.match(html, /Yosemite → Lake Tahoe/);
@@ -37,6 +37,7 @@ test("server-renders the revised California itinerary", async () => {
   assert.match(html, /Best Western Plus Palm Court Hotel/);
   assert.match(html, /Best Western Silicon Valley Inn/);
   assert.match(html, /Trader Joe’s · Modesto/);
+  assert.match(html, /黄色虚线标记是可跳过或二选一的备选点/);
   assert.match(html, /9\/24 — 9\/27/);
   assert.match(html, /9\/27 — 9\/30/);
   assert.match(html, /9\/30 — 10\/1/);
@@ -44,7 +45,7 @@ test("server-renders the revised California itinerary", async () => {
   assert.match(html, /TRAVEL EXPENSE SHEET/);
   assert.match(html, /浏览器本地保存已开启|正在读取本机记录/);
   assert.match(html, /href="#expenses"/);
-  assert.doesNotMatch(html, /Napa Valley → Sacramento|Sacramento → Lake Tahoe|Lake Tahoe → Yosemite/);
+  assert.doesNotMatch(html, /Napa Valley → Sacramento|Sacramento → Lake Tahoe|Lake Tahoe → Yosemite|Nelder Grove/);
   assert.doesNotMatch(html, /Hotel Caza|Holiday Inn Sacramento|Yosemite Cedar Lodge|Winchester Mystery House|San Pedro Square/);
   assert.doesNotMatch(html, /仁川|Visalia|Sequoia|Santa Monica|Los Angeles/);
   assert.doesNotMatch(html, /FRAME BY FRAME|目的地影像|出发前，记住这四件事|href="#notes"/);
@@ -55,7 +56,7 @@ test("keeps every map stop ordered and timed", async () => {
   const { allRoutePoints, hotelStays, optimizedDays, routePointTimes } = await import("../app/route-data.ts");
 
   assert.equal(optimizedDays.length, 14);
-  assert.equal(allRoutePoints.length, 42);
+  assert.equal(allRoutePoints.length, 41);
   assert.equal(hotelStays.length, 5);
   assert.equal(hotelStays.find((hotel) => hotel.id === "comfort-inn-bay")?.nights, 3);
   assert.equal(hotelStays.find((hotel) => hotel.id === "yosemite-way-station")?.nights, 3);
@@ -63,6 +64,11 @@ test("keeps every map stop ordered and timed", async () => {
   assert.equal(hotelStays.find((hotel) => hotel.id === "palm-court-davis")?.nights, 1);
   assert.equal(hotelStays.find((hotel) => hotel.id === "best-western-silicon-valley")?.nights, 3);
   assert.equal(allRoutePoints.find((point) => point.id === "d4-trader-joes")?.name, "Trader Joe’s · Modesto");
+  assert.equal(allRoutePoints.some((point) => point.id === "d4-nelder"), false);
+  assert.equal(allRoutePoints.find((point) => point.id === "d6-taft")?.optional, true);
+  assert.equal(optimizedDays.find((day) => day.day === 6)?.returnTravelMinutes, 110);
+  assert.equal(allRoutePoints.find((point) => point.id === "d7-alder")?.travelMinutes, 300);
+  assert.equal(allRoutePoints.find((point) => point.id === "d14-sfo")?.travelMinutes, 75);
   assert.equal(optimizedDays[3]?.title, "San Francisco → Mariposa / Yosemite");
   assert.equal(optimizedDays[10]?.title, "Davis → Napa Valley → Sunnyvale");
   assert.equal(hotelStays.some((hotel) => hotel.id.includes("los-angeles")), false);
