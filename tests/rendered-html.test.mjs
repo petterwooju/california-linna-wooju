@@ -21,7 +21,7 @@ test("server-renders the revised California itinerary", async () => {
 
   const html = await response.text();
   assert.match(html, /California, Linna &amp; Wooju/);
-  assert.match(html, /41<\/b><span>ROUTE STOPS/);
+  assert.match(html, /42<\/b><span>ROUTE STOPS/);
   assert.match(html, /5<\/b><span>HOTEL STAYS/);
   assert.match(html, /Napa Valley → Sacramento/);
   assert.match(html, /Sand Harbor → Nevada Beach/);
@@ -31,6 +31,8 @@ test("server-renders the revised California itinerary", async () => {
   assert.match(html, /9\/21 — 9\/24/);
   assert.match(html, /Holiday Inn Sacramento Downtown – Arena/);
   assert.match(html, /Yosemite Cedar Lodge/);
+  assert.match(html, /Best Western Silicon Valley Inn/);
+  assert.match(html, /Trader Joe’s · 水和野餐补给/);
   assert.match(html, /9\/28 — 10\/1/);
   assert.match(html, /10\/1 — 10\/4/);
   assert.match(html, /TRAVEL EXPENSE SHEET/);
@@ -44,13 +46,14 @@ test("keeps every map stop ordered and timed", async () => {
   const { allRoutePoints, hotelStays, optimizedDays, routePointTimes } = await import("../app/route-data.ts");
 
   assert.equal(optimizedDays.length, 14);
-  assert.equal(allRoutePoints.length, 41);
+  assert.equal(allRoutePoints.length, 42);
   assert.equal(hotelStays.length, 5);
   assert.equal(hotelStays.find((hotel) => hotel.id === "hotel-caza")?.nights, 3);
   assert.equal(hotelStays.find((hotel) => hotel.id === "holiday-inn-sacramento")?.nights, 1);
   assert.equal(hotelStays.find((hotel) => hotel.id === "alder-inn")?.nights, 3);
   assert.equal(hotelStays.find((hotel) => hotel.id === "yosemite-cedar-lodge")?.nights, 3);
-  assert.equal(hotelStays.find((hotel) => hotel.id === "hyatt-san-jose")?.nights, 3);
+  assert.equal(hotelStays.find((hotel) => hotel.id === "best-western-silicon-valley")?.nights, 3);
+  assert.equal(allRoutePoints.find((point) => point.id === "d5-trader-joes")?.name, "Trader Joe’s · East Sacramento");
   assert.equal(hotelStays.some((hotel) => hotel.id.includes("los-angeles")), false);
 
   for (const day of optimizedDays) {

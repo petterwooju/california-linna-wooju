@@ -44,7 +44,7 @@ export const hotelStays: HotelStay[] = [
   { id: "holiday-inn-sacramento", name: "Holiday Inn Sacramento Downtown – Arena by IHG", cn: "Holiday Inn Sacramento Downtown – Arena", dates: "9/24 — 9/25", nights: 1, address: "300 J Street, Sacramento", checkIn: "15:00", checkOut: "11:00", dayFrom: 4, dayTo: 4, coordinates: [-121.5024, 38.5819], website: "https://www.trip.com/hotels/sacramento-hotel-detail-2216965/holiday-inn-sacramento-downtown-arena-by-ihg/", note: "已选酒店；距 Old Sacramento Waterfront 约 200 米，第二天可直接步行出发。酒店提供收费私人停车，当前页面标示约 US$20/天。" },
   { id: "alder-inn", name: "The Alder Inn", cn: "The Alder Inn", dates: "9/25 — 9/28", nights: 3, address: "1072 Ski Run Blvd, South Lake Tahoe", checkIn: "16:00", checkOut: "10:00", dayFrom: 5, dayTo: 7, coordinates: [-119.9562, 38.9464], website: "https://www.thealderinn.com/", note: "已选酒店；免费停车，位置适合作为 Emerald Bay、South Lake Tahoe 与 Nevada 一侧的三晚基地。Deluxe Queen Room 是否配独立空调建议以订单房型设施为准。" },
   { id: "yosemite-cedar-lodge", name: "Yosemite Cedar Lodge", cn: "Yosemite Cedar Lodge", dates: "9/28 — 10/1", nights: 3, address: "9966 CA-140, El Portal", checkIn: "15:00", checkOut: "11:00", dayFrom: 8, dayTo: 10, coordinates: [-119.8525, 37.6601], website: "https://www.trip.com/hotels/mariposa-county-hotel-detail-2544945/yosemite-cedar-lodge/", note: "已选酒店；位于 Merced River 沿岸，距 Arch Rock Entrance 约 8 英里。提供免费停车、餐厅与泳池，进入 Yosemite Valley 建议预留约 30–40 分钟。" },
-  { id: "hyatt-san-jose", name: "Hyatt Place San Jose / Downtown", cn: "Hyatt Place San Jose / Downtown", dates: "10/1 — 10/4", nights: 3, address: "282 Almaden Boulevard, San Jose", checkIn: "15:00", checkOut: "12:00", dayFrom: 11, dayTo: 14, coordinates: [-121.8905, 37.3292], website: "https://www.hyatt.com/hyatt-place/en-US/sjczj-hyatt-place-san-jose-downtown", note: "建议住宿；连住三晚，前往 Downtown、Great Mall、Half Moon Bay 与 SFO 都较顺路。" },
+  { id: "best-western-silicon-valley", name: "Best Western Silicon Valley Inn", cn: "Best Western Silicon Valley Inn", dates: "10/1 — 10/4", nights: 3, address: "600 N Mathilda Ave, Sunnyvale", checkIn: "15:00", checkOut: "11:00", dayFrom: 11, dayTo: 14, coordinates: [-122.0295, 37.392], website: "https://www.trip.com/hotels/sunnyvale-hotel-detail-2193813/best-western-silicon-valley-inn/", note: "最新版表格指定酒店；免费停车并含早餐。从这里到 Great Mall 约 20 分钟，前往 Half Moon Bay 与 SFO 也比 San Jose Downtown 更顺路。" },
 ];
 
 export const optimizedDays: OptimizedDay[] = [
@@ -85,7 +85,7 @@ export const optimizedDays: OptimizedDay[] = [
     title: "Napa Valley → Sacramento",
     hotelId: "holiday-inn-sacramento",
     points: [
-      { id: "d4-domaine", day: 4, order: 1, cn: "纳帕酒庄品鉴", name: "Domaine Carneros", coordinates: [-122.3568, 38.255], travelMode: "驾车", travelMinutes: 88, travelLabel: "旧金山取车后出发", visitMinutes: 90, note: "作为 Napa Valley wine cellar 的推荐落点；品鉴通常需要提前预约，驾驶者请勿饮酒。" },
+      { id: "d4-domaine", day: 4, order: 1, cn: "纳帕酒庄品鉴", name: "Domaine Carneros", coordinates: [-122.3568, 38.255], travelMode: "驾车", travelMinutes: 88, travelLabel: "SFO 取车后出发", visitMinutes: 90, note: "作为 Napa Valley wine cellar 的推荐落点；品鉴通常需要提前预约，驾驶者请勿饮酒。" },
       { id: "d4-oxbow", day: 4, order: 2, cn: "纳帕午餐", name: "Oxbow Public Market", coordinates: [-122.2818, 38.302], travelMode: "驾车", travelMinutes: 18, visitMinutes: 75, note: "顺路解决午餐和咖啡，再向 Sacramento 出发。" },
       { id: "d4-capitol", day: 4, order: 3, cn: "加州州议会大厦公园", name: "California State Capitol Park", coordinates: [-121.4934, 38.5766], travelMode: "驾车", travelMinutes: 69, travelLabel: "Napa → Sacramento", visitMinutes: 45, note: "参观后再驾车约 5–10 分钟到 300 J Street 办理入住；若到达较晚，可直接去酒店。" },
     ],
@@ -98,7 +98,8 @@ export const optimizedDays: OptimizedDay[] = [
     points: [
       { id: "d5-old-sac", day: 5, order: 1, cn: "老萨克拉门托滨水区", name: "Old Sacramento Waterfront", coordinates: [-121.5053, 38.5845], travelMode: "步行", travelMinutes: 5, travelLabel: "从酒店出发", visitMinutes: 90, note: "酒店距离 Old Sacramento 约 200 米，不必开车；退房后可先把行李留在车内或寄存前台。" },
       { id: "d5-joes", day: 5, order: 2, cn: "Joe’s Crab Shack 午餐", name: "Joe’s Crab Shack · Old Sacramento", coordinates: [-121.5064, 38.5832], travelMode: "步行", travelMinutes: 5, visitMinutes: 75 },
-      { id: "d5-tahoe", day: 5, order: 3, cn: "南太浩湖与酒店入住", name: "The Alder Inn / Hotel Check-in", coordinates: [-119.9562, 38.9464], travelMode: "驾车", travelMinutes: 120, travelLabel: "Sacramento → Lake Tahoe", visitMinutes: 90, note: "山路天气变化快；抵达后只安排入住和湖边短散步。" },
+      { id: "d5-trader-joes", day: 5, order: 3, cn: "Trader Joe’s 途中补给", name: "Trader Joe’s · East Sacramento", coordinates: [-121.4447, 38.5607], travelMode: "驾车", travelMinutes: 15, travelLabel: "Old Sacramento → East Sacramento", visitMinutes: 30, note: "最新版表格新增的补给停靠；采购 Lake Tahoe 沙滩日所需的水、早餐和野餐食物。" },
+      { id: "d5-tahoe", day: 5, order: 4, cn: "南太浩湖与酒店入住", name: "The Alder Inn / Hotel Check-in", coordinates: [-119.9562, 38.9464], travelMode: "驾车", travelMinutes: 120, travelLabel: "Trader Joe’s → Lake Tahoe", visitMinutes: 90, note: "山路天气变化快；抵达后只安排入住和湖边短散步。" },
     ],
   },
   {
@@ -164,11 +165,11 @@ export const optimizedDays: OptimizedDay[] = [
   {
     day: 11,
     date: "10月1日 · 周四",
-    title: "Yosemite → San Jose",
-    hotelId: "hyatt-san-jose",
+    title: "Yosemite → Sunnyvale",
+    hotelId: "best-western-silicon-valley",
     points: [
-      { id: "d11-san-jose", day: 11, order: 1, cn: "圣何塞市中心与酒店入住", name: "Downtown San Jose / Hotel Check-in", coordinates: [-121.8905, 37.3292], travelMode: "驾车", travelMinutes: 225, travelLabel: "Yosemite Cedar Lodge 出发", visitMinutes: 60, note: "按约 3 小时 45 分净驾驶并另加一次休息；15:00 后办理入住。" },
-      { id: "d11-rose", day: 11, order: 2, cn: "市立玫瑰园", name: "Municipal Rose Garden", coordinates: [-121.9287, 37.3315], travelMode: "驾车", travelMinutes: 15, visitMinutes: 60 },
+      { id: "d11-sunnyvale", day: 11, order: 1, cn: "Sunnyvale 酒店入住", name: "Best Western Silicon Valley Inn / Check-in", coordinates: [-122.0295, 37.392], travelMode: "驾车", travelMinutes: 225, travelLabel: "Yosemite Cedar Lodge 出发", visitMinutes: 60, note: "最新版表格改为 Sunnyvale 住宿；按约 3 小时 45 分净驾驶并另加一次休息，15:00 后办理入住。" },
+      { id: "d11-rose", day: 11, order: 2, cn: "市立玫瑰园", name: "Municipal Rose Garden", coordinates: [-121.9287, 37.3315], travelMode: "驾车", travelMinutes: 20, visitMinutes: 60 },
       { id: "d11-santana", day: 11, order: 3, cn: "Santana Row 晚餐与散步", name: "Santana Row", coordinates: [-121.9476, 37.3208], travelMode: "驾车", travelMinutes: 8, visitMinutes: 105, note: "长途驾驶后只保留轻松散步和晚餐；疲劳时可直接取消。" },
     ],
   },
@@ -176,9 +177,9 @@ export const optimizedDays: OptimizedDay[] = [
     day: 12,
     date: "10月2日 · 周五",
     title: "Great Mall → Winchester Mystery House",
-    hotelId: "hyatt-san-jose",
+    hotelId: "best-western-silicon-valley",
     points: [
-      { id: "d12-great-mall", day: 12, order: 1, cn: "Milpitas 大型奥特莱斯", name: "Great Mall", coordinates: [-121.8968, 37.4142], travelMode: "驾车", travelMinutes: 20, travelLabel: "从 San Jose 酒店出发", visitMinutes: 210, note: "购物时间压缩到约 3.5 小时，为下午的 Winchester Mystery House 留出预约时段。" },
+      { id: "d12-great-mall", day: 12, order: 1, cn: "Milpitas 大型奥特莱斯", name: "Great Mall", coordinates: [-121.8968, 37.4142], travelMode: "驾车", travelMinutes: 20, travelLabel: "从 Sunnyvale 酒店出发", visitMinutes: 210, note: "最新版表格估算约 20 分钟；购物时间压缩到约 3.5 小时，为下午的 Winchester Mystery House 留出预约时段。" },
       { id: "d12-winchester", day: 12, order: 2, cn: "温彻斯特神秘屋", name: "Winchester Mystery House", coordinates: [-121.9506, 37.3184], travelMode: "驾车", travelMinutes: 30, visitMinutes: 120, note: "建议预约 14:30 左右的参观场次，并为停车与入场留缓冲。" },
       { id: "d12-san-pedro", day: 12, order: 3, cn: "San Pedro Square 晚餐", name: "San Pedro Square Market", coordinates: [-121.8947, 37.3366], travelMode: "驾车", travelMinutes: 15, visitMinutes: 120 },
     ],
@@ -187,18 +188,18 @@ export const optimizedDays: OptimizedDay[] = [
     day: 13,
     date: "10月3日 · 周六",
     title: "Lemos Farm",
-    hotelId: "hyatt-san-jose",
+    hotelId: "best-western-silicon-valley",
     points: [
-      { id: "d13-lemos", day: 13, order: 1, cn: "Lemos 农场", name: "Lemos Farm", coordinates: [-122.4261, 37.4695], travelMode: "驾车", travelMinutes: 50, travelLabel: "San Jose → Half Moon Bay", visitMinutes: 150, note: "农场周六通常 10:00–17:00，秋季票务可能分时段；建议提前购票。" },
+      { id: "d13-lemos", day: 13, order: 1, cn: "Lemos 农场", name: "Lemos Farm", coordinates: [-122.4261, 37.4695], travelMode: "驾车", travelMinutes: 50, travelLabel: "Sunnyvale → Half Moon Bay", visitMinutes: 150, note: "农场周六通常 10:00–17:00，秋季票务可能分时段；建议提前购票。" },
     ],
   },
   {
     day: 14,
     date: "10月4日 · 周日",
-    title: "San Jose → SFO → 北京",
-    hotelId: "hyatt-san-jose",
+    title: "Sunnyvale → SFO → 北京",
+    hotelId: "best-western-silicon-valley",
     points: [
-      { id: "d14-sfo", day: 14, order: 1, cn: "旧金山国际机场", name: "San Francisco International Airport", coordinates: [-122.379, 37.6213], travelMode: "驾车", travelMinutes: 60, travelLabel: "从 San Jose 酒店出发", visitMinutes: 180, note: "UA888 10:35 起飞；建议 06:30 左右离店，预留周日路况、还车和国际航班值机时间。" },
+      { id: "d14-sfo", day: 14, order: 1, cn: "旧金山国际机场", name: "San Francisco International Airport", coordinates: [-122.379, 37.6213], travelMode: "驾车", travelMinutes: 41, travelLabel: "从 Sunnyvale 酒店出发", visitMinutes: 180, note: "最新版表格估算约 41 分钟；UA888 10:35 起飞，仍建议 06:30 左右离店，为周日路况、还车和国际航班值机预留缓冲。" },
     ],
   },
 ];
@@ -218,7 +219,8 @@ export const routePointTimes: Record<string, string> = {
   "d4-capitol": "14:15–15:00",
   "d5-old-sac": "09:00–10:30",
   "d5-joes": "10:45–12:00",
-  "d5-tahoe": "14:00–16:00",
+  "d5-trader-joes": "12:15–12:45",
+  "d5-tahoe": "14:45–16:15",
   "d6-gather": "08:00–09:00",
   "d6-emerald": "09:35–11:05",
   "d6-tallac": "11:25–12:40",
@@ -239,8 +241,8 @@ export const routePointTimes: Record<string, string> = {
   "d10-glacier": "08:55–09:55",
   "d10-sentinel": "10:15–12:15",
   "d10-taft": "13:15–15:15",
-  "d11-san-jose": "13:15–16:00",
-  "d11-rose": "16:15–17:15",
+  "d11-sunnyvale": "13:15–16:00",
+  "d11-rose": "16:20–17:20",
   "d11-santana": "17:30–19:15",
   "d12-great-mall": "10:00–13:30",
   "d12-winchester": "14:15–16:15",

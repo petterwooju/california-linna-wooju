@@ -10,11 +10,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: "California, Linna & Wooju — 2026 加州公路旅行",
-    description: "9月21日至10月4日，从旧金山、Napa、Sacramento 与 Lake Tahoe 到 Yosemite、San Jose 的互动路线、逐小时时间表和住宿计划。",
+    description: "9月21日至10月4日，从旧金山、Napa、Sacramento 与 Lake Tahoe 到 Yosemite、Sunnyvale 和 San Jose 的互动路线、逐小时时间表和住宿计划。",
     icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
     openGraph: {
       title: "California, Linna & Wooju",
-      description: "14 calendar days · 41 stops · 5 stays",
+      description: "14 calendar days · 42 stops · 5 stays",
       type: "website",
       url: origin,
       siteName: "California Field Journal",
@@ -23,7 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary",
       title: "California, Linna & Wooju",
-      description: "14 calendar days · 41 stops · 5 stays",
+      description: "14 calendar days · 42 stops · 5 stays",
     },
   };
 }
