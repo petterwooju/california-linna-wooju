@@ -21,8 +21,8 @@ test("server-renders the revised California itinerary", async () => {
 
   const html = await response.text();
   assert.match(html, /California, Linna &amp; Wooju/);
-  assert.match(html, /42<\/b><span>ROUTE STOPS/);
-  assert.match(html, /5<\/b><span>HOTEL STAYS/);
+  assert.match(html, /全部 <!-- -->42<!-- --> 站/);
+  assert.match(html, /FIVE STAYS \/ ONE CONTINUOUS ROUTE/);
   assert.match(html, /San Francisco → Mariposa \/ Yosemite/);
   assert.match(html, /Yosemite → Lake Tahoe/);
   assert.match(html, /Lake Tahoe → Old Sacramento → Davis/);
@@ -48,6 +48,7 @@ test("server-renders the revised California itinerary", async () => {
   assert.doesNotMatch(html, /Hotel Caza|Holiday Inn Sacramento|Yosemite Cedar Lodge|Winchester Mystery House|San Pedro Square/);
   assert.doesNotMatch(html, /仁川|Visalia|Sequoia|Santa Monica|Los Angeles/);
   assert.doesNotMatch(html, /FRAME BY FRAME|目的地影像|出发前，记住这四件事|href="#notes"/);
+  assert.doesNotMatch(html, /class="hero"|A CALIFORNIA FIELD JOURNAL|CALENDAR DAYS|ROUTE STOPS|HOTEL STAYS/);
 });
 
 test("keeps every map stop ordered and timed", async () => {

@@ -273,7 +273,7 @@ export default function Home() {
   }
 
   return (
-    <main>
+    <main id="top">
       <header className="site-header">
         <a className="brand" href="#top" aria-label="回到页面顶部">
           <span>CA</span><i>26</i>
@@ -286,34 +286,6 @@ export default function Home() {
         </nav>
         <div className="header-date">SEP 21 — OCT 4</div>
       </header>
-
-      <section className="hero" id="top">
-        <div className="hero-image" aria-hidden="true">
-          <img src="/places/yosemite.jpg" alt="" fetchPriority="high" />
-          <div className="hero-wash" />
-        </div>
-        <div className="hero-copy">
-          <p className="eyebrow">A CALIFORNIA FIELD JOURNAL · 2026</p>
-          <h1>
-            California,
-            <span>Linna &amp; Wooju</span>
-          </h1>
-          <p className="hero-deck">十四天从旧金山海雾出发，先进入 Yosemite 的花岗岩山谷，再沿 Lake Tahoe、Old Sacramento 与 Napa Valley 向南回到硅谷。</p>
-          <a className="route-cta" href="#route">
-            展开路线 <span aria-hidden="true">↓</span>
-          </a>
-        </div>
-        <div className="hero-facts" aria-label="旅行概览">
-          <div><b>14</b><span>CALENDAR DAYS</span></div>
-          <div><b>{allRoutePoints.length}</b><span>ROUTE STOPS</span></div>
-          <div><b>{hotelStays.length}</b><span>HOTEL STAYS</span></div>
-        </div>
-        <div className="hero-stamp">
-          <span>37.7749° N</span>
-          <b>CALIFORNIA</b>
-          <span>37.3382° N</span>
-        </div>
-      </section>
 
       <section className="route-section" id="route">
         <div className="section-heading">
