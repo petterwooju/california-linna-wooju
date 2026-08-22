@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: "California, Linna & Wooju — 2026 加州公路旅行",
-    description: "9月21日至10月4日，从旧金山、Napa、Sacramento 与 Lake Tahoe 到 Yosemite、Sunnyvale 和 San Jose 的互动路线、逐小时时间表和住宿计划。",
+    description: "9月21日至10月4日，从旧金山出发，经 Yosemite、Lake Tahoe、Sacramento、Napa Valley 到 Sunnyvale 的逆时针互动路线、逐小时时间表和住宿计划。",
     icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
     openGraph: {
       title: "California, Linna & Wooju",
